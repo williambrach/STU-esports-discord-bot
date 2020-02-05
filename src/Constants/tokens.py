@@ -1,1 +1,2 @@
-token = 'Njc0MzcwMTQxMTM5NzYzMjE3.Xjp1qg.EF6JDg2_Vws9rYgTGqYCwF1TOwI'
+token = 'DISCORD TOKEN HERE'
+lolapikey = 'API TOKEN HERE'

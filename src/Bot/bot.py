@@ -1,9 +1,10 @@
+import sys
 import discord
 from User import author
 from FileController import fileController
 from WebScrapeController import webController
-from Constants import constants
-
+from Constants import text_constants
+from WebScrapeController import lolApiController
 
 async def compareMsg(msgList, conMsg):
     found = False
@@ -16,38 +17,40 @@ async def compareMsg(msgList, conMsg):
     return found
 
 
+def shutDownProcess():
+    sys.exit(0)
+
+
 class MyBot(discord.Client):
 
     async def on_ready(self):
         print('Logged on as {0}!'.format(self.user))
-
-    async def processLogin(self, message):
+        print(self.get_guild(615866592902774793).roles)
+        lolApiController.getSummonerRank('Isamashii podsem', 'EUN1')
+        shutDownProcess()
+    async def sendLoginMessage(self, message):
         sender = author.createAuthorFromMessage(message.author)
         loginMsg = fileController.loadLoginMsg()
         user = self.get_user(sender.id)
         await user.send(loginMsg)
-        await user.send(constants.ENTER_NAME_TEXT)
-        # async for msg in message.channel.history(limit=3):
-        #     print(msg.content)
+        await user.send(text_constants.ENTER_NAME_TEXT)
+
+    async def parseCommand(self, message):
+        if str(message.content).lower() == "!login".lower():
+            await self.sendLoginMessage(message)
+        elif str(message.content).lower() == "!q".lower():
+            shutDownProcess()
 
     async def on_message(self, message):
-
         if message.author == self.user:
             return
-
-        if await compareMsg(message.channel.history(limit=2), constants.ENTER_NAME_TEXT):
+        elif str(message.content).startswith("!"):
+            await self.parseCommand(message)
+        elif await compareMsg(message.channel.history(limit=2), text_constants.ENTER_NAME_TEXT):
             if webController.isStubaPerson(message):
                 print("Is stuba person")
             else:
                 print("Not stuba person")
-        if str(message.content).lower() == "!login".lower():
-            await self.processLogin(message)
-       # else if str(message.content).lower == "!q".lower():
-
-
-        # user = self.get_user(sender.id)
-        # await user.send('👀')
-        # await message.author.send('👋')
 
     async def on_member_join(self, member):
         ##migrate whole code here
