@@ -4,7 +4,7 @@ from WebScrapeController import lolApiController
 
 def main():
 
-    client = bot.MyBot()
+    client = bot.createBot()
     client.run(tokens.token)
 
 

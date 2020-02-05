@@ -1,10 +1,10 @@
 import sys
-import discord
-from User import author
-from FileController import fileController
-from WebScrapeController import webController
+from discord.ext import commands
 from Constants import text_constants
-from WebScrapeController import lolApiController
+from FileController import fileController
+from User import author
+from WebScrapeController import webController
+
 
 async def compareMsg(msgList, conMsg):
     found = False
@@ -21,13 +21,19 @@ def shutDownProcess():
     sys.exit(0)
 
 
-class MyBot(discord.Client):
+def createBot():
+    bot = commands.Bot(command_prefix='!')
 
-    async def on_ready(self):
-        print('Logged on as {0}!'.format(self.user))
-        print(self.get_guild(615866592902774793).roles)
-        lolApiController.getSummonerRank('Isamashii podsem', 'EUN1')
-        shutDownProcess()
+    @bot.event
+    async def on_ready():
+        print('Im alive')
+
+    # print('Logged on as {0}!'.format(self.user))
+    # print(self.get_guild(615866592902774793).roles)
+    # lolApiController.getSummonerRank('Isamashii podsem', 'EUN1')
+    # shutDownProcess()
+
+    @bot.event
     async def sendLoginMessage(self, message):
         sender = author.createAuthorFromMessage(message.author)
         loginMsg = fileController.loadLoginMsg()
@@ -35,23 +41,26 @@ class MyBot(discord.Client):
         await user.send(loginMsg)
         await user.send(text_constants.ENTER_NAME_TEXT)
 
-    async def parseCommand(self, message):
-        if str(message.content).lower() == "!login".lower():
-            await self.sendLoginMessage(message)
-        elif str(message.content).lower() == "!q".lower():
-            shutDownProcess()
-
-    async def on_message(self, message):
-        if message.author == self.user:
-            return
-        elif str(message.content).startswith("!"):
-            await self.parseCommand(message)
-        elif await compareMsg(message.channel.history(limit=2), text_constants.ENTER_NAME_TEXT):
-            if webController.isStubaPerson(message):
-                print("Is stuba person")
-            else:
-                print("Not stuba person")
-
-    async def on_member_join(self, member):
-        ##migrate whole code here
+    @bot.event
+    async def on_member_join():
+        # migrate whole code here
         print('Joined')
+
+    ############# Commands ##############
+
+    @bot.command()
+    async def test(self, arg):
+        print(arg)
+        # await self.send(arg)
+
+    @bot.command()
+    async def ais(self, *arg):
+        data = ' '.join(arg[0:])
+        if webController.isStubaPerson(data):
+            tmp = "Is stuba person"
+        else:
+            tmp = "Not stuba person"
+        print(tmp)
+        await self.send(tmp)
+
+    return bot
