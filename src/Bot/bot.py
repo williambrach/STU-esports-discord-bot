@@ -1,6 +1,20 @@
 import discord
 from User import author
 from FileController import fileController
+from WebScrapeController import webController
+from Constants import constants
+
+
+async def compareMsg(msgList, conMsg):
+    found = False
+    async for msg in msgList:
+        if str(msg.content) == str(conMsg):
+            found = True
+            break
+        else:
+            continue
+    return found
+
 
 class MyBot(discord.Client):
 
@@ -12,12 +26,24 @@ class MyBot(discord.Client):
         loginMsg = fileController.loadLoginMsg()
         user = self.get_user(sender.id)
         await user.send(loginMsg)
+        await user.send(constants.ENTER_NAME_TEXT)
         # async for msg in message.channel.history(limit=3):
         #     print(msg.content)
 
     async def on_message(self, message):
+
+        if message.author == self.user:
+            return
+
+        if await compareMsg(message.channel.history(limit=2), constants.ENTER_NAME_TEXT):
+            if webController.isStubaPerson(message):
+                print("Is stuba person")
+            else:
+                print("Not stuba person")
         if str(message.content).lower() == "!login".lower():
             await self.processLogin(message)
+       # else if str(message.content).lower == "!q".lower():
+
 
         # user = self.get_user(sender.id)
         # await user.send('👀')
