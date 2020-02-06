@@ -6,23 +6,10 @@ from User import author
 from WebScrapeController import webController
 
 
-async def compareMsg(msgList, conMsg):
-    found = False
-    async for msg in msgList:
-        if str(msg.content) == str(conMsg):
-            found = True
-            break
-        else:
-            continue
-    return found
-
-
-def shutDownProcess():
-    sys.exit(0)
-
-
 def createBot():
     bot = commands.Bot(command_prefix='!')
+
+    ############# EVENTS ##############
 
     @bot.event
     async def on_ready():
@@ -59,5 +46,10 @@ def createBot():
             await self.send(tmp)
         else:
             return
+
+    @bot.command()
+    async def q(self, *arg):
+        # TODO check permission if person calling has admin permission
+        sys.exit(0)
 
     return bot
