@@ -1,5 +1,7 @@
 import sys
 from discord.ext import commands
+from discord.utils import get
+from discord import client
 from Constants import text_constants
 from FileController import fileController
 from User import author
@@ -30,10 +32,18 @@ def createBot():
 
     ############# Commands ##############
 
-    @bot.command()
+    @bot.command(pass_context=True)
     async def test(self, arg):
-        print(arg)
-        # await self.send(arg)
+        guild = await bot.fetch_guild(615866592902774793)
+        member = ""
+        async for x in guild.fetch_members():
+            if str(x.name) in str(self.message.author):
+                member = x
+                break
+        print(member)
+        role = get(guild.roles, name='MegaHracik')
+        #member = guild.get_member(self.message.author)
+        await member.add_roles(role)
 
     @bot.command()
     async def ais(self, *arg):
