@@ -28,11 +28,6 @@ def createBot():
     async def on_ready():
         print('Im alive')
 
-    # print('Logged on as {0}!'.format(self.user))
-    # print(self.get_guild(615866592902774793).roles)
-    # lolApiController.getSummonerRank('Isamashii podsem', 'EUN1')
-    # shutDownProcess()
-
     @bot.event
     async def sendLoginMessage(self, message):
         sender = author.createAuthorFromMessage(message.author)
@@ -56,11 +51,13 @@ def createBot():
     @bot.command()
     async def ais(self, *arg):
         data = ' '.join(arg[0:])
-        if webController.isStubaPerson(data):
-            tmp = "Is stuba person"
+        if data:
+            if webController.isStubaPerson(data):
+                tmp = "Is stuba person"
+            else:
+                tmp = "Not stuba person"
+            await self.send(tmp)
         else:
-            tmp = "Not stuba person"
-        print(tmp)
-        await self.send(tmp)
+            return
 
     return bot

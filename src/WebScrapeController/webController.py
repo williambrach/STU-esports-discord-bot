@@ -13,7 +13,7 @@ def isStubaPerson(name: str):
     response = requests.request("POST", url, data=payload, headers=headers)
     for person in response.json()['data']:
         unaccented_string = unidecode.unidecode(person[0])
-        if name in unaccented_string:
+        if name.lower() == unaccented_string.lower():
             return True
 
     return False
