@@ -118,6 +118,7 @@ def createBot():
     async def lolrole(self, *arg):
         if await checkRole(role='League of Legends', ctx=self):
             if arg[0].upper() in lolApiController.rolesDict:
+                # TODO check if person has input role -> remove role
                 await setRole(role=lolApiController.rolesDict[arg[0].upper()], ctx=self)
             else:
                 # wrong role
