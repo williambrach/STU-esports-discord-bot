@@ -3,9 +3,9 @@ Hru si možeš zvoliť nasledovne pomocou týchto príkazov.
 
 League of legends:
 
-!lol [nick] [lane], nick sa berie zo serveru EUNE, pokial máš lepší rank na inom servery použi príkaz
-!lol [nick#server] [lane]
-Napríklad : !lol meatGrinder MID alebo !lol Luka the Bazooka#euw MID
+!lol [nick], nick sa berie zo serveru EUNE, pokial máš lepší rank na inom servery použi príkaz
+!lol [nick#server]
+Napríklad : !lol meatGrinder alebo !lol Luka the Bazooka#EUW
 
 Dota 2
 

@@ -10,25 +10,18 @@ from WebScrapeController import webController
 from WebScrapeController import lolApiController
 
 
-
-
 def createBot():
     bot = commands.Bot(command_prefix='!')
 
     def parseLolCommand(arg):
         server = "EUNE"
-        role = None
-        if "#" in arg[0]:
-            userInput = str(arg[0]).split("#")
+        if "#" in ' '.join(arg):
+            userInput = ' '.join(arg).split("#")
             name = userInput[0]
             server = userInput[1]
-            if len(arg) > 1:
-                role = arg[1]
         else:
-            name = arg[0]
-            if len(arg) > 1:
-                role = arg[1]
-        return name, role, server
+            name = ' '.join(arg)
+        return name, server
 
     async def getGuildMemberFromDM(guildId=discordConstants.BOTS_PROVING_GROUNDS_ID, message=None):
         guild = await bot.fetch_guild(guildId)
@@ -39,19 +32,19 @@ def createBot():
                 break
         return member
 
-    async def setRole(guildId=discordConstants.BOTS_PROVING_GROUNDS_ID,role="",ctx=None):
+    async def setRole(guildId=discordConstants.BOTS_PROVING_GROUNDS_ID, role="", ctx=None):
         guild = await bot.fetch_guild(guildId)
         member = await getGuildMemberFromDM(message=ctx)
         role = get(guild.roles, name=role)
         await member.add_roles(role)
 
-    async def removeRole(guildId=discordConstants.BOTS_PROVING_GROUNDS_ID,role="",ctx=None):
+    async def removeRole(guildId=discordConstants.BOTS_PROVING_GROUNDS_ID, role="", ctx=None):
         guild = await bot.fetch_guild(guildId)
         member = await getGuildMemberFromDM(message=ctx)
         role = get(guild.roles, name=role)
         await member.remove_roels(role)
 
-    async def checkRole(guildId=discordConstants.BOTS_PROVING_GROUNDS_ID,role="",ctx=None):
+    async def checkRole(guildId=discordConstants.BOTS_PROVING_GROUNDS_ID, role="", ctx=None):
         guild = await bot.fetch_guild(guildId)
         member = await getGuildMemberFromDM(message=ctx)
         role = get(guild.roles, name=role)
@@ -59,6 +52,7 @@ def createBot():
             return True
         else:
             return False
+
     ############# EVENTS ##############
 
     @bot.event
@@ -81,9 +75,9 @@ def createBot():
         data = ' '.join(arg[0:])
         if data:
             if webController.isStubaPerson(data):
-                await setRole(role='STU',ctx=self)
+                await setRole(role='STU', ctx=self)
                 await self.send(text_constants.AIS_CONFIRMED)
-                await setRole(role='MegaHracik' ,ctx=self)
+                await setRole(role='MegaHracik', ctx=self)
                 await self.send(fileController.loadGamesMsg())
             else:
                 await self.send(text_constants.AIS_DENIED.format(data))
@@ -106,8 +100,17 @@ def createBot():
     @bot.command()
     async def lol(self, *arg):
         if await checkRole(role='STU', ctx=self):
-            name, role, server = parseLolCommand(arg)
-            lolApiController.getSummonerRank(name, server)
+            name, server = parseLolCommand(arg)
+            rank = lolApiController.getSummonerRank(name, server)
+            if rank == text_constants.NOT_FOUND:
+                await self.send(text_constants.NOT_FOUND_MSG_LOL.format(name, server))
+            else:
+                if not rank:
+                    await setRole(role="League of Legends", ctx=self)
+                    return
+                parsedRank = rank[0:1] + rank[1:].lower()
+                await setRole(role="League of Legends", ctx=self)
+                await setRole(role=parsedRank, ctx=self)
         else:
             await self.send(text_constants.PERMISSION_DENIED)
 

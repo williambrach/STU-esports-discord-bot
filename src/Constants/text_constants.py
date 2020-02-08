@@ -2,3 +2,5 @@ ENTER_NAME_TEXT = "Napis !ais [priezvisko meno] (nie opacnne), napriklad Mrkvick
 AIS_CONFIRMED = "Podarilo sa mi ta najst na STUčke mozes pokracovat!"
 AIS_DENIED = "Nenasiel som nikoho s menom \"{}\" na STU!, skus zadat spravne meno alebo si vobec z STU?"
 PERMISSION_DENIED = "Nemas povolenie pouzivat tento prikaz!"
+NOT_FOUND = "NOT FOUND"
+NOT_FOUND_MSG_LOL = "Nenasiel som hraca \"{}\" na servery \"{}\", skus znova"
