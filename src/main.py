@@ -1,6 +1,6 @@
-from Constants import tokens
 from Bot import bot
-from WebScrapeController import lolApiController
+from Constants import tokens
+
 
 def main():
 

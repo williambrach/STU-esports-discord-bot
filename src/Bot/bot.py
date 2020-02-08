@@ -1,13 +1,15 @@
 import sys
+
 from discord.ext import commands
 from discord.utils import get
-from discord import client
-from Constants import text_constants
+
 from Constants import discordConstants
+from Constants import text_constants
 from FileController import fileController
 from User import author
-from WebScrapeController import webController
 from WebScrapeController import lolApiController
+from WebScrapeController import webController
+from WebScrapeController.dotaWebController import getDotaRank
 
 
 def createBot():
@@ -126,7 +128,9 @@ def createBot():
 
     @bot.command()
     async def dota(self, *arg):
-        # TODO check permission if person calling has admin permission
+        rank = getDotaRank(arg[0])
+        await setRole(role="Dota", ctx=self)
+        await setRole(role=rank, ctx=self)
         sys.exit(0)
 
     @bot.command()
