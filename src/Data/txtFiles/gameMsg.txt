@@ -1,0 +1,17 @@
+Pokial máš záujem hrať nejakú hru za STU, musím ti pridať rolu pri danú hru a tvoj rank v nej.
+Hru si možeš zvoliť nasledovne pomocou týchto príkazov.
+
+League of legends:
+
+!lol [nick] [lane], nick sa berie zo serveru EUNE, pokial máš lepší rank na inom servery použi príkaz
+!lol [nick#server] [lane]
+Napríklad : !lol meatGrinder MID alebo !lol Luka the Bazooka#euw MID
+
+Dota 2
+
+!dota [steamid], zadaj svoje steam id. steam ID najdes TODO
+Napríklad : !dota 76561198058614248
+
+CS:GO
+
+!csgo [faceitid], zadaj svoje faceit ID
