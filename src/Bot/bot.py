@@ -115,6 +115,15 @@ def createBot():
             await self.send(text_constants.PERMISSION_DENIED)
 
     @bot.command()
+    async def lolrole(self, *arg):
+        if await checkRole(role='League of Legends', ctx=self):
+            if arg[0].upper() in lolApiController.rolesDict:
+                await setRole(role=lolApiController.rolesDict[arg[0].upper()], ctx=self)
+            else:
+                # wrong role
+                pass
+
+    @bot.command()
     async def dota(self, *arg):
         # TODO check permission if person calling has admin permission
         sys.exit(0)

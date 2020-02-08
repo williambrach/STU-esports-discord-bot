@@ -14,6 +14,14 @@ regionDict = {
     "LA": "LA1"
 }
 
+rolesDict = {
+    "TOP": "Top",
+    "JUNGLE": "Jungle",
+    "MID": "Mid",
+    "ADC": "Adc",
+    "SUPP": "Supp"
+}
+
 
 def getSummonerRank(summonerName, region):
     server = regionDict[str(region).upper()]
