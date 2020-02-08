@@ -7,6 +7,7 @@ from Constants import discordConstants
 from FileController import fileController
 from User import author
 from WebScrapeController import webController
+from WebScrapeController import lolApiController
 
 
 
@@ -14,6 +15,20 @@ from WebScrapeController import webController
 def createBot():
     bot = commands.Bot(command_prefix='!')
 
+    def parseLolCommand(arg):
+        server = "EUNE"
+        role = None
+        if "#" in arg[0]:
+            userInput = str(arg[0]).split("#")
+            name = userInput[0]
+            server = userInput[1]
+            if len(arg) > 1:
+                role = arg[1]
+        else:
+            name = arg[0]
+            if len(arg) > 1:
+                role = arg[1]
+        return name, role, server
 
     async def getGuildMemberFromDM(guildId=discordConstants.BOTS_PROVING_GROUNDS_ID, message=None):
         guild = await bot.fetch_guild(guildId)
@@ -66,6 +81,7 @@ def createBot():
         data = ' '.join(arg[0:])
         if data:
             if webController.isStubaPerson(data):
+                await setRole(role='STU',ctx=self)
                 await self.send(text_constants.AIS_CONFIRMED)
                 await setRole(role='MegaHracik' ,ctx=self)
                 await self.send(fileController.loadGamesMsg())
@@ -89,8 +105,11 @@ def createBot():
 
     @bot.command()
     async def lol(self, *arg):
-        # TODO check permission if person calling has admin permission
-        sys.exit(0)
+        if await checkRole(role='STU', ctx=self):
+            name, role, server = parseLolCommand(arg)
+            lolApiController.getSummonerRank(name, server)
+        else:
+            await self.send(text_constants.PERMISSION_DENIED)
 
     @bot.command()
     async def dota(self, *arg):
