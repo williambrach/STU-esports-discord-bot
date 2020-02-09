@@ -8,7 +8,7 @@ from User import author
 from WebScrapeController import lolApiController
 from WebScrapeController import webController
 from WebScrapeController.dotaWebController import getDotaRank
-
+from WebScrapeController.csgoWebController import getCsgoRank
 
 def createBot():
     bot = commands.Bot(command_prefix='!')
@@ -139,7 +139,15 @@ def createBot():
 
     @bot.command()
     async def csgo(self, *arg):
-        # TODO check permission if person calling has admin permission
-        sys.exit(0)
+        if await checkRole(role='STU', ctx=self):
+            level = getCsgoRank(arg[0])
+            if level == text_constants.NOT_FOUND:
+                await setRole(role="CSGO", ctx=self)
+            else:
+                role = "Faceit "+str(level)
+                await setRole(role="CSGO", ctx=self)
+                await setRole(role=role, ctx=self)
+        else:
+            await self.send(text_constants.PERMISSION_DENIED)
 
     return bot
