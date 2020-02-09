@@ -1,5 +1,5 @@
 import requests
-
+from Constants import text_constants
 
 def getDotaRank(steamId):
     acc_id = int(steamId)
@@ -17,7 +17,7 @@ def getDotaRank(steamId):
 
     rankPos = response.text.find(rankHead)
     if rankPos == -1:
-        return 'anonym'
+        return text_constants.NOT_FOUND
 
     rankText = response.text[rankPos + len(rankHead) + 1:]
     rankText = rankText[:rankText.find('"')]

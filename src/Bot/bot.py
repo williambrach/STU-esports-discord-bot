@@ -1,8 +1,6 @@
 import sys
-
 from discord.ext import commands
 from discord.utils import get
-
 from Constants import discordConstants
 from Constants import text_constants
 from FileController import fileController
@@ -128,10 +126,15 @@ def createBot():
 
     @bot.command()
     async def dota(self, *arg):
-        rank = getDotaRank(arg[0])
-        await setRole(role="Dota", ctx=self)
-        await setRole(role=rank, ctx=self)
-        sys.exit(0)
+        if await checkRole(role='STU', ctx=self):
+            rank = getDotaRank(arg[0])
+            if rank == text_constants.NOT_FOUND:
+                await setRole(role="Dota", ctx=self)
+            else:
+                await setRole(role="Dota", ctx=self)
+                await setRole(role=rank, ctx=self)
+        else:
+            await self.send(text_constants.PERMISSION_DENIED)
 
     @bot.command()
     async def csgo(self, *arg):

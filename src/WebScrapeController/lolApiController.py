@@ -1,5 +1,6 @@
 from riotwatcher import RiotWatcher, ApiError
 from Constants import tokens
+from Constants import text_constants
 
 regionDict = {
     "EUNE": "EUN1",
@@ -29,7 +30,7 @@ def getSummonerRank(summonerName, region):
     try:
         summoner = watcher.summoner.by_name(server, summonerName)
     except:
-        return "NOT FOUND"
+        return text_constants.NOT_FOUND
     my_ranked_stats = watcher.league.by_summoner(server, summoner['id'])
     for rank in my_ranked_stats:
         if rank['queueType'] == "RANKED_SOLO_5x5":
