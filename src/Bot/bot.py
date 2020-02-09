@@ -42,7 +42,7 @@ def createBot():
         guild = await bot.fetch_guild(guildId)
         member = await getGuildMemberFromDM(message=ctx)
         role = get(guild.roles, name=role)
-        await member.remove_roels(role)
+        await member.remove_roles(role)
 
     async def checkRole(guildId=discordConstants.BOTS_PROVING_GROUNDS_ID, role="", ctx=None):
         guild = await bot.fetch_guild(guildId)
@@ -116,13 +116,14 @@ def createBot():
 
     @bot.command()
     async def lolrole(self, *arg):
-        if await checkRole(role='League of Legends', ctx=self):
+        if await checkRole(role='League of Legends', ctx=self) and await checkRole(role='STU', ctx=self):
             if arg[0].upper() in lolApiController.rolesDict:
-                # TODO check if person has input role -> remove role
-                await setRole(role=lolApiController.rolesDict[arg[0].upper()], ctx=self)
+                if await checkRole(role=lolApiController.rolesDict[arg[0].upper()], ctx=self):
+                    await removeRole(role=lolApiController.rolesDict[arg[0].upper()], ctx=self)
+                else:
+                    await setRole(role=lolApiController.rolesDict[arg[0].upper()], ctx=self)
             else:
-                # wrong role
-                pass
+                await self.send(text_constants.ROLE_NOT_FOUND.format(arg[0]))
 
     @bot.command()
     async def dota(self, *arg):

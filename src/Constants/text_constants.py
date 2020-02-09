@@ -4,3 +4,4 @@ AIS_DENIED = "Nenasiel som nikoho s menom \"{}\" na STU!, skus zadat spravne men
 PERMISSION_DENIED = "Nemas povolenie pouzivat tento prikaz!"
 NOT_FOUND = "NOT FOUND"
 NOT_FOUND_MSG_LOL = "Nenasiel som hraca \"{}\" na servery \"{}\", skus znova"
+ROLE_NOT_FOUND = "Rola \"{}\" neexistuje, pre League of Legends poznam role : ADC, MID, TOP, SUPP, JUNGLE."
