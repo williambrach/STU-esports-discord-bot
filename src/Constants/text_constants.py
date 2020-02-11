@@ -1,4 +1,4 @@
-ENTER_NAME_TEXT = "Napíš !ais [priezvisko meno] (nie opačne), napriklad : !ais Mrkvicka Jozko. Ja overím že či si z STU!"
+ENTER_NAME_TEXT = "Napíš !ais [priezvisko meno], napriklad : !ais Mrkvicka Jozko. Ja overím že či si z STU!"
 AIS_CONFIRMED = "Podarilo sa mi ťa nájsť v zozname ludí na STU, môžeš pokračovať!"
 AIS_DENIED = "Nenašiel som nikoho s menom \"{}\" na STU!, skús znova zadať meno do !ais príkazu."
 PERMISSION_DENIED = "Nemáš povolenie používať prikaz \"{}\" !"

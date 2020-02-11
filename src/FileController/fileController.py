@@ -6,4 +6,4 @@ def loadLoginMsg():
 
 def loadGamesMsg():
     f = io.open("./Data/txtFiles/gameMsg.txt", mode="r", encoding="utf-8")
-    return str(f.read())
+    return f.read()
