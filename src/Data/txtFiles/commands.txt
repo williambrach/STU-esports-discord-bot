@@ -1,0 +1,62 @@
+***Commands***
+
+**Ais**
+
+*!ais*
+Kontrola či sa daný človek nachádza v aise, je študent STU.
+Prideluje rolu STU, potvrdenie že sa daný človek nachádza na STU.
+Nie je potrebné dodržiavať diakritiku.
+
+```
+!ais [priezvisko krsne_meno].
+Priklad : !ais Mrvička Jožko
+```
+
+**Discordbot**
+
+*!cmd*
+Vypíše zoznam príkazov ktoré sú momentálne podporované.
+
+*!bot*
+Vypíše popis bota.
+
+**League of Legends**
+
+*!lol*
+Prideluje rolu League of Legends a rolu ela podľa SoloQ umiestnenia daného hráča.
+ Default server pre tento command je EUNE.Na použitie tohoto commandu je nutné mať rolu STU.
+
+```
+!lol [nickname] alebo !lol[nickname#server]
+Príklad : !lol Perkz alebo !lol Luka the Bazooka#EUW
+```
+
+*!lolrole*
+Prideluje rolu pozície v hre (TOP, JUNGLE, MID, ADC, SUPP).
+Na použitie tohoto commandu je potrebné mať rolu League of Legends.
+
+```
+!lolrole [rola]
+Príklad : !lolrole ADC
+```
+
+**Dota 2**
+
+*!dota*
+Prideľuje rolu Dota2 a zároveň aj dosiahnutý rank. Rank sa berie zo stránky Dotabuff.
+Na použitie tohoto commandu je nutné mať rolu STU.
+
+```
+!dota [steam:id]
+Príklad : !dota 11131141232
+```
+
+**CS:GO**
+
+*!csgo*
+Prideľuje rolu csgo a level zo stránky Faceit. Na použitie tohoto commandu je nutné mať rolu STU.
+
+```
+!csgo [faceit_name]
+Príklad : !csgo DIVIX
+```

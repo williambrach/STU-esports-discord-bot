@@ -1,0 +1,7 @@
+***BOT INFO***
+
+Open source implementacia Discord bota. Bot je určený pre Discord server : *eSports STUBA*.
+
+Link na sourcecode:  https://github.com/ramang22/STU-esports-discord-bot.
+
+Pokiaľ máš záujem sa podielať na vývoji bota napíš moderátorom na discorde.

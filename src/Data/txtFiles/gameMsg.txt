@@ -1,24 +1,26 @@
 Pokiaľ máš záujem hrať hru za STU, musím ti pridať rolu pre danú hru.
 Hru si možeš zvoliť nasledovne pomocou týchto príkazov.
 
-League of legends:
-
+***League of legends:***
+```
 !lol [nick], napríklad : !lol Polish Jungler.
+```
 Keď hráš na inom servery ako je server EUNE tak prosím použi príkaz !lol v takejto forme : !lol [nick#server].
 Napríklad : !lol meatGrinder#NA alebo !lol Luka the Bazooka#EUW
-
 Keď ti bude pridelená rola "League of Legends", môžeš použiť príkaz !lolrole [TOP,JUNGLE,MID,ADC,SUPP] a bude ti
 pridelená taktiež rola lajny ktorú hrávaš.
 
 
-Dota 2
-
+***Dota 2***
+```
 !dota [steamid], zadaj svoje steam id.
 Napríklad : !dota 76561198058614248
+```
 
+***CS:GO***
+```
+!csgo [faceitid], zadaj svoje faceit meno (id) .
+Napríklad : !csgo DIVIX```
 
-CS:GO
-
-!csgo [faceitid], zadaj svoje faceit meno (id) . Ak nemáš faceit a máš záujem o hranie za cs:go tým prosím kontaktuj
+ Ak nemáš faceit a máš záujem o hranie za cs:go tým prosím kontaktuj
 jedného z moderátorov discordu aby ti pridelil rolu.
-Napríklad : !csgo DIVIX

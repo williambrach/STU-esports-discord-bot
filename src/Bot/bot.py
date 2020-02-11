@@ -109,10 +109,12 @@ def createBot():
             else:
                 if not rank:
                     await setRole(role="League of Legends", ctx=self)
+                    await self.send(text_constants.LOL_SUCCEED)
                     return
                 parsedRank = rank[0:1] + rank[1:].lower()
                 await setRole(role="League of Legends", ctx=self)
                 await setRole(role=parsedRank, ctx=self)
+                await self.send(text_constants.LOL_SUCCEED)
         else:
             await self.send(text_constants.PERMISSION_DENIED.format("!lol"))
 
@@ -138,6 +140,16 @@ def createBot():
                 await setRole(role=rank, ctx=self)
         else:
             await self.send(text_constants.PERMISSION_DENIED.format("!dota"))
+
+    @bot.command()
+    async def cmd(self, *arg):
+        commands = fileController.loadCommands()
+        await self.send(commands)
+
+    @bot.command()
+    async def botinfo(self, *arg):
+        commands = fileController.loadBotInfo()
+        await self.send(commands)
 
     @bot.command()
     async def csgo(self, *arg):
