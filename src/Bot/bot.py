@@ -76,7 +76,7 @@ def createBot():
     async def ais(self, *arg):
         data = ' '.join(arg[0:])
         if data:
-            if webController.isStubaPerson(data):
+            if webController.isStubaPerson(arg):
                 await setRole(role='STU', ctx=self)
                 await self.send(text_constants.AIS_CONFIRMED)
                 await setRole(role='MegaHracik', ctx=self)
