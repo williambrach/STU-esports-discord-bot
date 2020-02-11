@@ -1,7 +1,9 @@
+import io
+
 def loadLoginMsg():
-    f = open("./Data/txtFiles/welcomeMsg.txt", "r")
-    return str(f.read())
+    f = io.open("./Data/txtFiles/welcomeMsg.txt", mode="r", encoding="utf-8")
+    return f.read()
 
 def loadGamesMsg():
-    f = open("./Data/txtFiles/gameMsg.txt", "r")
+    f = io.open("./Data/txtFiles/gameMsg.txt", mode="r", encoding="utf-8")
     return str(f.read())

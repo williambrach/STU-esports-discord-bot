@@ -60,8 +60,10 @@ def createBot():
         print('Im alive')
 
     @bot.event
-    async def on_member_join():
-        # migrate whole code here
+    async def on_member_join(member):
+        loginMsg = fileController.loadLoginMsg()
+        await member.send(loginMsg)
+        await member.send(text_constants.ENTER_NAME_TEXT)
         print('Joined')
 
     ############# Commands ##############
