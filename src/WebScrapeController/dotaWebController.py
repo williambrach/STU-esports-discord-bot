@@ -1,10 +1,12 @@
 import requests
 from Constants import text_constants
 
+
 def getDotaRank(steamId):
     acc_id = int(steamId)
 
-    url = "https://www.dotabuff.com/search?utf8=%E2%9C%93&q={0}&commit=Search".format(acc_id)
+    # url = "https://www.dotabuff.com/search?utf8=%E2%9C%93&q={0}&commit=Search".format(acc_id)
+    url = "https://www.dotabuff.com/players/{}".format(acc_id)
     headers = {
         'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'
     }
@@ -23,5 +25,4 @@ def getDotaRank(steamId):
     rankText = rankText[:rankText.find('"')]
     if rankText.find(' '):
         rankText = rankText[:rankText.find(' ')]
-
     return rankText

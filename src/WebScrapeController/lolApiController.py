@@ -23,6 +23,14 @@ rolesDict = {
     "SUPP": "Supp"
 }
 
+dotaDic = {
+    "CARRY" : "Carry",
+    "MID" : "Mid",
+    "OFFLANE" : "Offlane",
+    "SOFT SUPPORT" : "Soft Support",
+    "HARD SUPPORT" : "Hard Support"
+}
+
 
 def getSummonerRank(summonerName, region):
     server = regionDict[str(region).upper()]
