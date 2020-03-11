@@ -77,9 +77,11 @@ def createBot():
         data = ' '.join(arg[0:])
         if data:
             if webController.isStubaPerson(arg):
+                sender = author.createAuthorFromMessage(self.author)
+                user = bot.get_user(sender.id)
                 await setRole(role='STU', ctx=self)
                 await self.send(text_constants.AIS_CONFIRMED)
-                await self.send(fileController.loadGamesMsg())
+                await user.send(fileController.loadGamesMsg())
             else:
                 await self.send(text_constants.AIS_DENIED.format(data))
         else:
