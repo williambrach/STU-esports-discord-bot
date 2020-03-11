@@ -115,7 +115,7 @@ def createBot():
                 await setRole(role=parsedRank, ctx=self)
                 await self.send(text_constants.LOL_SUCCEED_RANK.format(parsedRank))
         else:
-            await self.send(text_constants.PERMISSION_DENIED.format("!lol"))
+            await self.send(text_constants.NEED_ROLE.format("STU", "!lol", "!ais"))
 
     @bot.command()
     async def lolrole(self, *arg):
@@ -129,7 +129,8 @@ def createBot():
                     await self.send(text_constants.LOL_ADD_ROLE.format(lolApiController.rolesDict[arg[0].upper()]))
             else:
                 await self.send(text_constants.ROLE_NOT_FOUND.format(arg[0]))
-
+        else:
+            await self.send(text_constants.NEED_ROLE.format("League of legends a STU","!lolrole", "!ais a !lol"))
 
     @bot.command()
     async def dotarole(self, *arg):
@@ -144,6 +145,8 @@ def createBot():
                     await self.send(text_constants.DOTA_ADD_ROLE.format(lolApiController.dotaDic[roleinput]))
             else:
                 await self.send(text_constants.ROLE_NOT_FOUND.format(roleinput))
+        else:
+            await self.send(text_constants.NEED_ROLE.format("Dota a STU","!dotarole", "!ais a !dota"))
 
     @bot.command()
     async def dota(self, *arg):
@@ -157,7 +160,7 @@ def createBot():
                 await setRole(role=rank, ctx=self)
                 await self.send(text_constants.DOTA_SUCCEED_RANK.format(rank))
         else:
-            await self.send(text_constants.PERMISSION_DENIED.format("!dota"))
+            await self.send(text_constants.NEED_ROLE.format("STU", "!dota", "!ais"))
 
     @bot.command()
     async def cmd(self, *arg):
@@ -186,6 +189,6 @@ def createBot():
                 await setRole(role=role, ctx=self)
                 await self.send(text_constants.CSGO_SUCCEED_RANK.format(role))
         else:
-            await self.send(text_constants.PERMISSION_DENIED.format("!csgo"))
+            await self.send(text_constants.NEED_ROLE.format("STU", "!csgo", "!ais"))
 
     return bot
