@@ -26,7 +26,6 @@ def isStubaPerson(input):
     for x in list(itertools.permutations(listInput, len(listInput))):
         listOfPermutations.append(unidecode.unidecode(" ".join(x).lower()))
     response = requests.request("POST", url, data=payload, headers=headers)
-    print(listOfPermutations)
     for person in response.json()['data']:
         newPerson = person[0].replace(".","")
         newPerson = newPerson.replace(",", "")
