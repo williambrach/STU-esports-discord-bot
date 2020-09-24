@@ -2,7 +2,6 @@
 Open source discord bot implementation for STU esports group.  
 If you wanna help us to develop this community project PM (propher mopher#2647 on discord)  
 
-
 # Commands
 
 ## Ais
