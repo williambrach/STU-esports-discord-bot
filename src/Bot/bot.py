@@ -205,6 +205,25 @@ def createBot():
             await self.send(text_constants.NEED_ROLE.format("STU", "!dota", "!ais"))
 
     @bot.command()
+    async def valorant(self, *arg):
+        if len(arg) == 0:
+            await self.send(text_constants.ERROR_ARGS.format("!valorant"))
+            return
+        if await checkRole(role='STU', ctx=self):
+            userInput = ' '.join(arg).split("#")
+            gameName = userInput[0]
+            tagline = userInput[1]
+            rank = lolApiController.getValoRank(gameName, tagline)
+            if rank == text_constants.NOT_FOUND:
+                await setRole(role="Valorant", ctx=self)
+                await self.send(text_constants.VALO_SUCCEED)
+            else:
+                await setRole(role="Valorant", ctx=self)
+                await self.send(text_constants.VALO_SUCCEED_RANK.format(rank))
+        else:
+            await self.send(text_constants.NEED_ROLE.format("STU", "!valorant", "!ais"))
+
+    @bot.command()
     async def cmd(self, *arg):
         sender = author.createAuthorFromMessage(self.author)
         bot_commands = fileController.loadCommands()
