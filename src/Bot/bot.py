@@ -12,6 +12,7 @@ from WebScrapeController import webController
 from WebScrapeController.dotaWebController import getDotaRank
 from WebScrapeController.csgoWebController import getCsgoRank
 
+
 def createBot():
     bot = commands.Bot(command_prefix='!')
 
@@ -55,8 +56,7 @@ def createBot():
         else:
             return False
 
-
-    ############# EVENTS ##############
+    # EVENTS
 
     @bot.event
     async def on_ready():
@@ -69,8 +69,7 @@ def createBot():
         await member.send(text_constants.ENTER_NAME_TEXT)
         print('Joined')
 
-    ############# Commands ##############
-
+    # Commands
 
     @bot.command(encoding='utf-8')
     async def ais(self, *arg):
@@ -79,7 +78,6 @@ def createBot():
             return
         data = ' '.join(arg[0:])
         if data:
-
             if webController.isStubaPerson(arg):
                 sender = author.createAuthorFromMessage(self.author)
                 user = bot.get_user(sender.id)
@@ -97,6 +95,26 @@ def createBot():
             sys.exit(0)
 
     @bot.command()
+    async def facebook(self, *arg):
+        area = self.message.channel
+        await area.send('Link na náš Facebook https://www.facebook.com/EsportSTUBA !')
+
+    @bot.command()
+    async def instagram(self, *arg):
+        area = self.message.channel
+        await area.send('Link na náš Instagram https://www.instagram.com/esport_stuba !')
+
+    @bot.command()
+    async def twitch(self, *arg):
+        area = self.message.channel
+        await area.send('Link na náš Twitch https://www.twitch.tv/stuba_esports !')
+
+    @bot.command()
+    async def logo(self, *arg):
+        area = self.message.channel
+        await area.send('Link na naše logo https://drive.google.com/drive/folders/1GHsmQxYO7rdllcBWyQQkuHryYirYvome?usp=sharing !')
+
+    @bot.command()
     async def login(self, *arg):
         sender = author.createAuthorFromMessage(self.author)
         loginMsg = fileController.loadLoginMsg()
@@ -106,7 +124,7 @@ def createBot():
 
     @bot.command()
     async def pog(self, *arg):
-        area=self.message.channel
+        area = self.message.channel
         await self.message.delete()
         await area.send('https://i0.wp.com/nerdschalk.com/wp-content/uploads/2020/08/pogger.png?resize=311%2C307&ssl=1',delete_after=30)
 
@@ -148,7 +166,7 @@ def createBot():
             else:
                 await self.send(text_constants.ROLE_NOT_FOUND.format(arg[0]))
         else:
-            await self.send(text_constants.NEED_ROLE.format("League of legends a STU","!lolrole", "!ais a !lol"))
+            await self.send(text_constants.NEED_ROLE.format("League of legends a STU", "!lolrole", "!ais a !lol"))
 
     @bot.command()
     async def dotarole(self, *arg):
@@ -167,7 +185,7 @@ def createBot():
             else:
                 await self.send(text_constants.ROLE_NOT_FOUND.format(roleinput))
         else:
-            await self.send(text_constants.NEED_ROLE.format("Dota a STU","!dotarole", "!ais a !dota"))
+            await self.send(text_constants.NEED_ROLE.format("Dota a STU", "!dotarole", "!ais a !dota"))
 
     @bot.command()
     async def dota(self, *arg):
@@ -189,16 +207,16 @@ def createBot():
     @bot.command()
     async def cmd(self, *arg):
         sender = author.createAuthorFromMessage(self.author)
-        commands = fileController.loadCommands()
+        bot_commands = fileController.loadCommands()
         user = bot.get_user(sender.id)
-        await user.send(commands)
+        await user.send(bot_commands)
 
     @bot.command()
     async def botinfo(self, *arg):
-        commands = fileController.loadBotInfo()
+        bot_commands = fileController.loadBotInfo()
         sender = author.createAuthorFromMessage(self.author)
         user = bot.get_user(sender.id)
-        await user.send(commands)
+        await user.send(bot_commands)
 
     @bot.command()
     async def csgo(self, *arg):
@@ -211,7 +229,7 @@ def createBot():
                 await setRole(role="CSGO", ctx=self)
                 await self.send(text_constants.CSGO_SUCCEED)
             else:
-                role = "Faceit "+str(level)
+                role = "Faceit " + str(level)
                 await setRole(role="CSGO", ctx=self)
                 await setRole(role=role, ctx=self)
                 await self.send(text_constants.CSGO_SUCCEED_RANK.format(role))
