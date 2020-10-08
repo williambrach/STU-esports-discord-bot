@@ -1,4 +1,6 @@
 import sys
+import io
+import aiohttp
 from discord.ext import commands
 from discord.utils import get
 from Constants import discordConstants
@@ -53,6 +55,7 @@ def createBot():
         else:
             return False
 
+
     ############# EVENTS ##############
 
     @bot.event
@@ -68,14 +71,15 @@ def createBot():
 
     ############# Commands ##############
 
-    @bot.command(pass_context=True)
-    async def test(self, arg):
-        pass
 
     @bot.command(encoding='utf-8')
     async def ais(self, *arg):
+        if len(arg) == 0:
+            await self.send(text_constants.ERROR_ARGS.format("!ais"))
+            return
         data = ' '.join(arg[0:])
         if data:
+
             if webController.isStubaPerson(arg):
                 sender = author.createAuthorFromMessage(self.author)
                 user = bot.get_user(sender.id)
@@ -89,8 +93,8 @@ def createBot():
 
     @bot.command()
     async def q(self, *arg):
-        # TODO check permission if person calling has admin permission
-        sys.exit(0)
+        if await checkRole(role='Discord Admin', ctx=self):
+            sys.exit(0)
 
     @bot.command()
     async def login(self, *arg):
@@ -100,8 +104,17 @@ def createBot():
         await user.send(loginMsg)
         await user.send(text_constants.ENTER_NAME_TEXT)
 
+    @bot.command()
+    async def pog(self, *arg):
+        area=self.message.channel
+        await self.message.delete()
+        await area.send('https://i0.wp.com/nerdschalk.com/wp-content/uploads/2020/08/pogger.png?resize=311%2C307&ssl=1',delete_after=30)
+
     @bot.command(encoding='utf-8')
     async def lol(self, *arg):
+        if len(arg) == 0:
+            await self.send(text_constants.ERROR_ARGS.format("!lol"))
+            return
         if await checkRole(role='STU', ctx=self):
             name, server = parseLolCommand(arg)
             rank = lolApiController.getSummonerRank(name, server)
@@ -121,6 +134,9 @@ def createBot():
 
     @bot.command()
     async def lolrole(self, *arg):
+        if len(arg) == 0:
+            await self.send(text_constants.ERROR_ARGS.format("!lolrole"))
+            return
         if await checkRole(role='League of Legends', ctx=self) and await checkRole(role='STU', ctx=self):
             if arg[0].upper() in lolApiController.rolesDict:
                 if await checkRole(role=lolApiController.rolesDict[arg[0].upper()], ctx=self):
@@ -136,6 +152,9 @@ def createBot():
 
     @bot.command()
     async def dotarole(self, *arg):
+        if len(arg) == 0:
+            await self.send(text_constants.ERROR_ARGS.format("!dotarole"))
+            return
         if await checkRole(role='Dota', ctx=self) and await checkRole(role='STU', ctx=self):
             roleinput = ' '.join(arg[0:]).upper()
             if roleinput in lolApiController.dotaDic:
@@ -152,6 +171,9 @@ def createBot():
 
     @bot.command()
     async def dota(self, *arg):
+        if len(arg) == 0:
+            await self.send(text_constants.ERROR_ARGS.format("!dota"))
+            return
         if await checkRole(role='STU', ctx=self):
             rank = getDotaRank(arg[0])
             if rank == text_constants.NOT_FOUND:
@@ -180,6 +202,9 @@ def createBot():
 
     @bot.command()
     async def csgo(self, *arg):
+        if len(arg) == 0:
+            await self.send(text_constants.ERROR_ARGS.format("!csgo"))
+            return
         if await checkRole(role='STU', ctx=self):
             level = getCsgoRank(arg[0])
             if level == text_constants.NOT_FOUND:

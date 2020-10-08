@@ -16,3 +16,4 @@ CSGO_SUCCEED = "Bola ti pridelená rola CS:GO ale bohužial tvoj faceit level so
 DOTA_REMOVE_ROLE = "Bola ti odobraná rola \"{}\" z tvojho profilu!"
 DOTA_ADD_ROLE = "Bola ti pridelená rola \"{}\" na tvoj profil!"
 NEED_ROLE = "Potrebuješ rolu \"{}\" aby si mohol použiť príkaz \"{}\", pre získanie potrebnej role použi command \"{}\". "
+ERROR_ARGS = "Zabudol si použiť arguemnty pre príkaz \"{}\", ak si nepamätáš argumenty použi príkaz \"!cmd\" "
