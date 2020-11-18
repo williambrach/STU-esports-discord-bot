@@ -63,10 +63,9 @@ def createBot():
     @bot.event
     async def on_member_join(member):
         loginMsg = fileController.loadLoginMsg()
-        await member.send(loginMsg)
-        await member.send(text_constants.ENTER_NAME_TEXT)
-        print('Joined')
-
+        userMessage = loginMsg + "\n" + text_constants.ENTER_NAME_TEXT
+        await member.send(userMessage)
+        
     # Commands
 
     @bot.command(encoding='utf-8')
@@ -95,30 +94,31 @@ def createBot():
     @bot.command()
     async def facebook(self, *arg):
         area = self.message.channel
-        await area.send('Link na náš Facebook https://www.facebook.com/EsportSTUBA !')
+        await area.send(text_constants.FACEBOOK)
 
     @bot.command()
     async def instagram(self, *arg):
         area = self.message.channel
-        await area.send('Link na náš Instagram https://www.instagram.com/esport_stuba !')
+        await area.send(text_constants.INSTAGRAM)
 
     @bot.command()
     async def twitch(self, *arg):
         area = self.message.channel
-        await area.send('Link na náš Twitch https://www.twitch.tv/estuba !')
+        await area.send(text_constants.TWITCH)
 
     @bot.command()
     async def logo(self, *arg):
         area = self.message.channel
-        await area.send('Link na naše logo https://drive.google.com/drive/folders/1GHsmQxYO7rdllcBWyQQkuHryYirYvome?usp=sharing !')
+        await area.send(text_constants.LOGO)
 
     @bot.command()
     async def login(self, *arg):
         sender = author.createAuthorFromMessage(self.author)
         loginMsg = fileController.loadLoginMsg()
         user = bot.get_user(sender.id)
-        await user.send(loginMsg)
-        await user.send(text_constants.ENTER_NAME_TEXT)
+        userMessage = loginMsg + "\n" + text_constants.ENTER_NAME_TEXT
+        await user.send(userMessage)
+
 
     @bot.command()
     async def pog(self, *arg):

@@ -1,13 +1,18 @@
 import unittest
 import asyncio
 import aiounittest
-import sys, os
+import sys
+import io
+import os
+
 sys.path.append('../src/')
 from WebScrapeController import lolApiController
 from WebScrapeController import csgoWebController
 from WebScrapeController import dotaWebController
 from WebScrapeController import webController
 from Constants import text_constants
+from FileController import fileController
+from Bot import bot
 
 class TestRiotApi(aiounittest.AsyncTestCase):
 
@@ -67,6 +72,35 @@ class TestAIS(aiounittest.AsyncTestCase):
         rank = webController.isStubaPerson(name)
         self.assertFalse(rank)
 
+class TestFileController(aiounittest.AsyncTestCase):
+
+    async def test_loadLoginMsg(self):
+        f = io.open(os.path.abspath("Data/txtFiles/welcomeMsg.txt"), mode="r", encoding="utf-8")
+        loadText = f.read()
+        f.close()
+        text = fileController.loadLoginMsg()
+        self.assertEqual(loadText,text)
+
+    async def test_loadGamesMsg(self):
+        f = io.open(os.path.abspath("Data/txtFiles/gameMsg.txt"), mode="r", encoding="utf-8")
+        loadText = f.read()
+        f.close()
+        text = fileController.loadGamesMsg()
+        self.assertEqual(loadText,text)  
+
+    async def test_loadCommands(self):
+        f = io.open(os.path.abspath("Data/txtFiles/commands.txt"), mode="r", encoding="utf-8")
+        loadText = f.read()
+        f.close()
+        text = fileController.loadCommands()
+        self.assertEqual(loadText,text)
+
+    async def test_loadBotInfo(self):
+        f = io.open(os.path.abspath("Data/txtFiles/botinfo.txt"), mode="r", encoding="utf-8")
+        loadText = f.read()
+        f.close()
+        text = fileController.loadBotInfo()
+        self.assertEqual(loadText,text)
 
 if __name__ == '__main__':
     unittest.main()
