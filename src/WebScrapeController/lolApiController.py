@@ -2,6 +2,7 @@ from riotwatcher import RiotWatcher, ApiError
 from Constants import tokens
 from Constants import text_constants
 import requests
+
 regionDict = {
     "EUNE": "EUN1",
     "EUW": "EUW1",
@@ -22,6 +23,9 @@ rolesDict = {
     "ADC": "Adc",
     "SUPP": "Supp"
 }
+
+rankArray = ["IRON", "BRONZE", "SILVER", "GOLD", "PLATINUM", "DIAMOND",
+"MASTER", "GRANDMASTER", "CHALLENGER"]
 
 dotaDic = {
     "CARRY": "Carry",
@@ -46,15 +50,9 @@ def getSummonerRank(summonerName, region):
 
 
 def getValoRank(gameName, tagline):
-    url = "https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{}/{}?api_key={}".format(gameName, tagline,tokens.lolapikey)
-    print(url)
-    # headers = {
-    #     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",
-    #     "Accept-Language": "en-US,en;q=0.9",
-    #     "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
-    #     "Origin": "https://developer.riotgames.com",
-    #     "X-Riot-Token": tokens.lolapikey
-    # }
-    response = requests.request("GET", url, timeout=5)
-    print(response)
+    # TODO WHEN RIOT API
+    #url = "https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{}/{}?api_key={}".format(gameName, tagline,tokens.lolapikey)
+    #response = requests.request("GET", url, timeout=5)
+    #print(response.json())
+    pass
 

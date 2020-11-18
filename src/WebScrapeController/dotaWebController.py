@@ -1,6 +1,8 @@
 import requests
 from Constants import text_constants
 
+dotaRanks = ["Immortal", "Divine", "Legend", "Archon", "Crusader", 
+"Guardian", "Herald", "Ancient"]
 
 def getDotaRank(steamId):
     acc_id = int(steamId)

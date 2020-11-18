@@ -1,6 +1,4 @@
 import sys
-import io
-import aiohttp
 from discord.ext import commands
 from discord.utils import get
 from Constants import discordConstants
@@ -107,7 +105,7 @@ def createBot():
     @bot.command()
     async def twitch(self, *arg):
         area = self.message.channel
-        await area.send('Link na náš Twitch https://www.twitch.tv/stuba_esports !')
+        await area.send('Link na náš Twitch https://www.twitch.tv/estuba !')
 
     @bot.command()
     async def logo(self, *arg):
@@ -213,7 +211,10 @@ def createBot():
             userInput = ' '.join(arg).split("#")
             gameName = userInput[0]
             tagline = userInput[1]
-            rank = lolApiController.getValoRank(gameName, tagline)
+
+            ## TODO WHEN VALO API
+            #rank = lolApiController.getValoRank(gameName, tagline)
+            rank = text_constants.NOT_FOUND
             if rank == text_constants.NOT_FOUND:
                 await setRole(role="Valorant", ctx=self)
                 await self.send(text_constants.VALO_SUCCEED)
