@@ -52,5 +52,20 @@ async def test_login():
     await dpytest.message("!login")
     dpytest.verify_message(userMessage)
 
+@pytest.mark.asyncio
+async def test_cmd():
+    x = bot.createBot()
+    dpytest.configure(x)
+    bot_commands = fileController.loadCommands()    
+    await dpytest.message("!cmd")
+    dpytest.verify_message(bot_commands)
+
+@pytest.mark.asyncio
+async def test_botinfo():
+    x = bot.createBot()
+    dpytest.configure(x)
+    bot_commands = fileController.loadBotInfo()   
+    await dpytest.message("!botinfo")
+    dpytest.verify_message(bot_commands)
 
 
