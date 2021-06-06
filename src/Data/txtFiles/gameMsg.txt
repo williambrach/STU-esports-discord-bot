@@ -1,26 +1,34 @@
 Pokiaľ máš záujem hrať hru za STU, musím ti pridať rolu pre danú hru.
-Hru si možeš zvoliť nasledovne pomocou týchto príkazov.
+Hru si možeš zvoliť nasledovne pomocou týchto príkazov:
 
-***League of legends:***
+***League of Legends***
 ```
-!lol [nick], napríklad : !lol Polish Jungler.
+!lol [nick#server]
+Napríklad -> !lol Ramang#eune, !lol lord ramang#euw.
 ```
-Keď hráš na inom servery ako je server EUNE tak prosím použi príkaz !lol v takejto forme : !lol [nick#server].
-Napríklad : !lol meatGrinder#NA alebo !lol Luka the Bazooka#EUW
-Keď ti bude pridelená rola "League of Legends", môžeš použiť príkaz !lolrole [TOP,JUNGLE,MID,ADC,SUPP] a bude ti
-pridelená taktiež rola lajny ktorú hrávaš.
-
+Keď ti bude pridelená rola "League of Legends", môžeš použiť príkaz a bude ti pridelená aj rola akú hrávaš:
+```
+!lolrole [TOP,JUNGLE,MID,ADC,SUPP]
+Napríklad -> !lolrole ADC
+```  
 
 ***Dota 2***
 ```
 !dota [steamid], zadaj svoje steam id.
-Napríklad : !dota 76561198058614248
+Napríklad -> !dota 76561198058614248
 ```
 
 ***CS:GO***
 ```
 !csgo [faceitid], zadaj svoje faceit meno (id) .
-Napríklad : !csgo DIVIX```
+Napríklad -> !csgo DIVIX
+```
 
- Ak nemáš faceit a máš záujem o hranie za cs:go tým prosím kontaktuj
-jedného z moderátorov discordu aby ti pridelil rolu.
+***Valorant***
+```
+!valorant [name#tagline]
+Napríklad -> !valorant ramang#eune
+```
+
+
+Ak nemáš faceit a máš záujem o pridanie CSGO role prosím kontaktuj, jedného z adminov discordu aby ti pridelil rolu.

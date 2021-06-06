@@ -1,4 +1,5 @@
 import sys
+import discord
 from discord.ext import commands
 from discord.utils import get
 from Constants import discordConstants
@@ -9,10 +10,12 @@ from WebScrapeController import lolApiController
 from WebScrapeController import webController
 from WebScrapeController.dotaWebController import getDotaRank
 from WebScrapeController.csgoWebController import getCsgoRank
-
+from discord_components import DiscordComponents, Button
 
 def createBot():
-    bot = commands.Bot(command_prefix='!')
+    intents = discord.Intents.default()
+    intents.members = True
+    bot = commands.Bot(command_prefix='!',intents=intents)
 
     def parseLolCommand(arg):
         server = "EUNE"
@@ -54,22 +57,39 @@ def createBot():
         else:
             return False
 
-    # EVENTS
+    ########### EVENTS
 
     @bot.event
     async def on_ready():
-        print('Im alive')
+        DiscordComponents(bot)
+        print('Im alive.')
 
+    # @bot.command()
+    # async def button(ctx):
+    #     await ctx.send(
+    #         "Hello, World!",
+    #         components = [
+    #             Button(label = "WOW button!")
+    #         ]
+    #     )
+
+    #     interaction = await bot.wait_for("button_click", check = lambda i: i.component.label.startswith("WOW"))
+    #     await interaction.respond(content = "Button clicked!")
+
+
+
+    # Toto sa spravi ked sa niekto pripoji na nas Discord. 
     @bot.event
     async def on_member_join(member):
         loginMsg = fileController.loadLoginMsg()
-        userMessage = loginMsg + "\n" + text_constants.ENTER_NAME_TEXT
-        await member.send(userMessage)
+        await member.send(loginMsg)
         
-    # Commands
+    ########### COMMANDS 
 
-    @bot.command(encoding='utf-8')
+    # !ais, prikaz ktory prejde ais a zisti ci je clovek na stu.
+    @bot.command(encoding='utf-8', name='ais')
     async def ais(self, *arg):
+        "Skontroluje či si z STU."
         if len(arg) == 0:
             await self.send(text_constants.ERROR_ARGS.format("!ais"))
             return
@@ -86,48 +106,65 @@ def createBot():
         else:
             return
 
-    @bot.command()
-    async def q(self, *arg):
-        if await checkRole(role='Discord Admin', ctx=self):
-            sys.exit(0)
+    # @bot.command()
+    # async def q(self, *arg):
+    #     if await checkRole(role='Discord Admin', ctx=self):
+    #         sys.exit(0)
 
-    @bot.command()
-    async def facebook(self, *arg):
+
+    # !facebook - posle sa link na nas facebook
+    @bot.command(name='facebook')
+    async def facebook(self, *arg,):
+        "Pošle ti link na náš facebook."
         area = self.message.channel
         await area.send(text_constants.FACEBOOK)
 
-    @bot.command()
+    # !instagram - posle sa link na nas instagram
+    @bot.command( name="instagram")
     async def instagram(self, *arg):
+        "Pošle ti link na náš instagram."
         area = self.message.channel
         await area.send(text_constants.INSTAGRAM)
 
-    @bot.command()
+
+    # !twitch - posle sa link na nas twitch
+    @bot.command(name="twitch")
     async def twitch(self, *arg):
-        area = self.message.channel
+        "Pošle ti link na náš Twitch."
+        area = self.message.channel        
         await area.send(text_constants.TWITCH)
 
-    @bot.command()
+    # !logo - posle sa link na google drive v ktorom mame vsetky loga
+    @bot.command(name="logo")
     async def logo(self, *arg):
+        "Pošle ti naše logo."
         area = self.message.channel
         await area.send(text_constants.LOGO)
 
-    @bot.command()
+
+    # !login - sprava ktora pride pouzivatelovi ked sa pripoji na server
+    @bot.command(name="login")
     async def login(self, *arg):
+        "Uvítacia správa."
         sender = author.createAuthorFromMessage(self.author)
         loginMsg = fileController.loadLoginMsg()
         user = bot.get_user(sender.id)
-        userMessage = loginMsg + "\n" + text_constants.ENTER_NAME_TEXT
-        await user.send(userMessage)
+        await user.send(loginMsg)
 
 
-    @bot.command()
+    # !pog - posle sa do chatu obrazok pogchamp, ktory sa po 30 sec zmaze. Taktiez sa zmaze command !pog
+    @bot.command( name="pog")
     async def pog(self, *arg):
+        "Pog!!"
         area = self.message.channel
         await self.message.delete()
         await area.send('https://i0.wp.com/nerdschalk.com/wp-content/uploads/2020/08/pogger.png?resize=311%2C307&ssl=1',delete_after=30)
 
-    @bot.command(encoding='utf-8')
+    
+    # !lol, priradi pouzivatelovi rolu lol 
+    @bot.command(encoding='utf-8', name="lol")
     async def lol(self, *arg):
+        "Prida ti League of Legends rolu + tvoj rank."
         if len(arg) == 0:
             await self.send(text_constants.ERROR_ARGS.format("!lol"))
             return
@@ -148,8 +185,10 @@ def createBot():
         else:
             await self.send(text_constants.NEED_ROLE.format("STU", "!lol", "!ais"))
 
-    @bot.command()
+    # !lolrole, prideli ti rolu podla vstupu
+    @bot.command(name="lolrole")
     async def lolrole(self, *arg):
+        "Prida ti tvoju poziciu v League of Legends."
         if len(arg) == 0:
             await self.send(text_constants.ERROR_ARGS.format("!lolrole"))
             return
@@ -166,8 +205,10 @@ def createBot():
         else:
             await self.send(text_constants.NEED_ROLE.format("League of legends a STU", "!lolrole", "!ais a !lol"))
 
-    @bot.command()
+    # !dotarole, prideli ti rolu podla vstupu
+    @bot.command(name="dotarole")
     async def dotarole(self, *arg):
+        "Prida ti tvoju poziciu v dote."
         if len(arg) == 0:
             await self.send(text_constants.ERROR_ARGS.format("!dotarole"))
             return
@@ -185,8 +226,10 @@ def createBot():
         else:
             await self.send(text_constants.NEED_ROLE.format("Dota a STU", "!dotarole", "!ais a !dota"))
 
-    @bot.command()
+    # !dota
+    @bot.command(name="dota")
     async def dota(self, *arg):
+        "Prida ti rolu Dota"
         if len(arg) == 0:
             await self.send(text_constants.ERROR_ARGS.format("!dota"))
             return
@@ -202,8 +245,10 @@ def createBot():
         else:
             await self.send(text_constants.NEED_ROLE.format("STU", "!dota", "!ais"))
 
-    @bot.command()
+    # !valorant
+    @bot.command(name="valorant")
     async def valorant(self, *arg):
+        "Prida ti rolu Valorant"
         if len(arg) == 0:
             await self.send(text_constants.ERROR_ARGS.format("!valorant"))
             return
@@ -224,22 +269,37 @@ def createBot():
         else:
             await self.send(text_constants.NEED_ROLE.format("STU", "!valorant", "!ais"))
 
-    @bot.command()
+
+    @bot.command(name="cmd")
     async def cmd(self, *arg):
+        "Vypise ti detailnejšie ako sa pouzivaju jednotlive prikazy."
         sender = author.createAuthorFromMessage(self.author)
         bot_commands = fileController.loadCommands()
         user = bot.get_user(sender.id)
-        await user.send(bot_commands)
+        # await user.send(bot_commands)
+        await user.send("TODO, treba to fixnut...")
 
     @bot.command()
     async def botinfo(self, *arg):
+        "Informacie ohladom bota."
         bot_commands = fileController.loadBotInfo()
         sender = author.createAuthorFromMessage(self.author)
         user = bot.get_user(sender.id)
         await user.send(bot_commands)
 
-    @bot.command()
+    @bot.command(name="notstu")
+    async def notstu(self, *arg):
+        "Pridá ti rolu notstu."
+        if await checkRole(role='STU', ctx=self):
+            await self.send("Už máš rolu STU... Nemôžeš mať aj rolu NOT-STU.")
+            return 
+        else:
+            await setRole(role="NOT-STU", ctx=self)
+            await self.send("Bola ti pridelená rola - NOT-STU.")
+        
+    @bot.command(name="csgo")
     async def csgo(self, *arg):
+        "Prida ti rolu CSGO + tvoj faceit rank."
         if len(arg) == 0:
             await self.send(text_constants.ERROR_ARGS.format("!csgo"))
             return

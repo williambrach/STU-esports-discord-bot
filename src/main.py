@@ -1,7 +1,6 @@
 from Bot import bot
 from Constants import tokens
 
-
 def main():
 
     client = bot.createBot()

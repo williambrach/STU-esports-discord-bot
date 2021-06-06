@@ -1,4 +1,19 @@
 ***Ahoj!***
 
-Ja som STU Discord bot. Aby si získal prístup na STU esports discord musím overiť že či si naozaj z STU.
-Prosím napíš mi tvoje meno aby som mohol overit ci si naozaj z STU a až potom sa môžeme rozprávať.
+Som discord bot, ktorý sa stará o poriadok na našom servery **Esport STUBA**. Aby si získal rolu pravého STUčkara musím overiť že či si naozaj z STU.
+
+Prosím ťa, napíš mi tvoje meno v nasledujúcom formáte a ja overím či si jedným z nás!
+
+```
+!ais [tvoje meno]
+Napríklad -> !ais Jozko Mrkvicka
+```
+
+Ak niesi z STU, musíš požiadať o rolu NOT-STU jedného našich discord adminov alebo použi nasledujúci príkaz!
+
+```
+!notstu
+```
+
+Ďakujeme ti za spoluprácu! :sunglasses: 
+Tím - ESPORT STUBA 
