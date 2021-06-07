@@ -3,13 +3,20 @@
 **Ais**
 
 *!ais*
-Kontrola či sa daný človek nachádza v aise, je študent STU.
-Prideluje rolu STU, potvrdenie že sa daný človek nachádza na STU.
+Kontrola či si študent STU. Ak si študent STU bot ti pridelí rolu STU.
 Nie je potrebné dodržiavať diakritiku.
 
 ```
-!ais [priezvisko krsne_meno].
-Priklad : !ais Mrvička Jožko
+!ais [tvoje meno]
+Napríklad -> !ais Jozko Mrkvicka
+```
+
+*!notstu*
+
+Ak niesi z STU, bot ti pridelí rolu NOT-STU.
+
+```
+!notstu
 ```
 
 **Discordbot**
@@ -17,18 +24,34 @@ Priklad : !ais Mrvička Jožko
 *!cmd*
 Vypíše zoznam príkazov ktoré sú momentálne podporované.
 
-*!bot*
+*!botinfo*
 Vypíše popis bota.
+
+*!pog*
+Pošle ti pog pepe.
+
+*!facebook*
+Vypíše sa link na náš facebook.
+
+*!twitch*
+Vypíše sa link na náš twitch.
+
+*!instagram*
+Vypíše sa link na náš instagram.
+
+*!logo*
+Vypíše sa link na zložku s našimi logami.
+
 
 **League of Legends**
 
 *!lol*
 Prideluje rolu League of Legends a rolu ela podľa SoloQ umiestnenia daného hráča.
- Default server pre tento command je EUNE.Na použitie tohoto commandu je nutné mať rolu STU.
+Na použitie tohoto commandu je nutné mať rolu STU.
 
 ```
-!lol [nickname] alebo !lol[nickname#server]
-Príklad : !lol Perkz alebo !lol Luka the Bazooka#EUW
+!lol [nick#server]
+Napríklad -> !lol Ramang#eune, !lol lord ramang#euw.
 ```
 
 *!lolrole*
@@ -36,9 +59,9 @@ Prideluje rolu pozície v hre (TOP, JUNGLE, MID, ADC, SUPP).
 Na použitie tohoto commandu je potrebné mať rolu League of Legends.
 
 ```
-!lolrole [rola]
-Príklad : !lolrole ADC
-```
+!lolrole [TOP,JUNGLE,MID,ADC,SUPP]
+Napríklad -> !lolrole ADC
+``` 
 
 **Dota 2**
 
@@ -47,16 +70,26 @@ Prideľuje rolu Dota2 a zároveň aj dosiahnutý rank. Rank sa berie zo stránky
 Na použitie tohoto commandu je nutné mať rolu STU.
 
 ```
-!dota [steam:id]
-Príklad : !dota 11131141232
+!dota [steamid], zadaj svoje steam id.
+Napríklad -> !dota 76561198058614248
 ```
 
 **CS:GO**
 
 *!csgo*
-Prideľuje rolu csgo a level zo stránky Faceit. Na použitie tohoto commandu je nutné mať rolu STU.
+Prideľuje rolu csgo a level zo stránky Faceit. 
+Na použitie tohoto commandu je nutné mať rolu STU.
 
 ```
-!csgo [faceit_name]
-Príklad : !csgo DIVIX
+!csgo [faceitid]
+Napríklad -> !csgo DIVIX
+```
+
+**Valorant**
+
+*!valorant*
+Pridá ti rolu Volorant, je potrebné mať rolu STU.
+```
+!valorant [name#tagline]
+Napríklad -> !valorant ramang#eune
 ```

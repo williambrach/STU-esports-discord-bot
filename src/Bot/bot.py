@@ -269,16 +269,17 @@ def createBot():
         else:
             await self.send(text_constants.NEED_ROLE.format("STU", "!valorant", "!ais"))
 
-
+    # !cmd
     @bot.command(name="cmd")
     async def cmd(self, *arg):
         "Vypise ti detailnejšie ako sa pouzivaju jednotlive prikazy."
         sender = author.createAuthorFromMessage(self.author)
         bot_commands = fileController.loadCommands()
         user = bot.get_user(sender.id)
-        # await user.send(bot_commands)
-        await user.send("TODO, treba to fixnut...")
+        await user.send(bot_commands)
+        #await user.send("TODO, treba to fixnut...")
 
+    # !botinfo
     @bot.command()
     async def botinfo(self, *arg):
         "Informacie ohladom bota."
@@ -287,6 +288,7 @@ def createBot():
         user = bot.get_user(sender.id)
         await user.send(bot_commands)
 
+    # !notstu
     @bot.command(name="notstu")
     async def notstu(self, *arg):
         "Pridá ti rolu notstu."
@@ -297,6 +299,7 @@ def createBot():
             await setRole(role="NOT-STU", ctx=self)
             await self.send("Bola ti pridelená rola - NOT-STU.")
         
+    # !csgo        
     @bot.command(name="csgo")
     async def csgo(self, *arg):
         "Prida ti rolu CSGO + tvoj faceit rank."

@@ -14,15 +14,17 @@ Napríklad -> !lolrole ADC
 
 ***Dota 2***
 ```
-!dota [steamid], zadaj svoje steam id.
+!dota [steamid]
 Napríklad -> !dota 76561198058614248
 ```
 
 ***CS:GO***
 ```
-!csgo [faceitid], zadaj svoje faceit meno (id) .
+!csgo [faceitid]
 Napríklad -> !csgo DIVIX
 ```
+Ak nemáš faceit a máš záujem o pridanie CSGO role prosím kontaktuj, jedného z adminov discordu aby ti pridelil rolu.
+
 
 ***Valorant***
 ```
@@ -30,5 +32,3 @@ Napríklad -> !csgo DIVIX
 Napríklad -> !valorant ramang#eune
 ```
 
-
-Ak nemáš faceit a máš záujem o pridanie CSGO role prosím kontaktuj, jedného z adminov discordu aby ti pridelil rolu.
