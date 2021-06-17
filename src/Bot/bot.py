@@ -1,4 +1,5 @@
 import sys
+import datetime
 import discord
 from discord.ext import commands
 from discord.utils import get
@@ -11,6 +12,7 @@ from WebScrapeController import webController
 from WebScrapeController.dotaWebController import getDotaRank
 from WebScrapeController.csgoWebController import getCsgoRank
 from discord_components import DiscordComponents, Button
+
 
 def createBot():
     intents = discord.Intents.default()
@@ -27,7 +29,14 @@ def createBot():
             name = ' '.join(arg)
         return name, server
 
-    async def getGuildMemberFromDM(guildId=discordConstants.BOTS_PROVING_GROUNDS_ID, message=None):
+
+    async def writeToLogsChannel(command,msg):
+        time = datetime.datetime.now()
+        time = time.strftime("%b %d %Y %H:%M")
+        channel = bot.get_channel(discordConstants.LOGS_CHANNEL_ID)
+        await channel.send(f"{time} - [{command.upper()}] - {msg}")
+
+    async def getGuildMemberFromDM(guildId=discordConstants.SERVER_ID, message=None):
         guild = await bot.fetch_guild(guildId)
         member = ""
         async for x in guild.fetch_members():
@@ -36,19 +45,19 @@ def createBot():
                 break
         return member
 
-    async def setRole(guildId=discordConstants.BOTS_PROVING_GROUNDS_ID, role="", ctx=None):
+    async def setRole(guildId=discordConstants.SERVER_ID, role="", ctx=None):
         guild = await bot.fetch_guild(guildId)
         member = await getGuildMemberFromDM(message=ctx)
         role = get(guild.roles, name=role)
         await member.add_roles(role)
 
-    async def removeRole(guildId=discordConstants.BOTS_PROVING_GROUNDS_ID, role="", ctx=None):
+    async def removeRole(guildId=discordConstants.SERVER_ID, role="", ctx=None):
         guild = await bot.fetch_guild(guildId)
         member = await getGuildMemberFromDM(message=ctx)
         role = get(guild.roles, name=role)
         await member.remove_roles(role)
 
-    async def checkRole(guildId=discordConstants.BOTS_PROVING_GROUNDS_ID, role="", ctx=None):
+    async def checkRole(guildId=discordConstants.SERVER_ID, role="", ctx=None):
         guild = await bot.fetch_guild(guildId)
         member = await getGuildMemberFromDM(message=ctx)
         role = get(guild.roles, name=role)
@@ -88,22 +97,30 @@ def createBot():
 
     # !ais, prikaz ktory prejde ais a zisti ci je clovek na stu.
     @bot.command(encoding='utf-8', name='ais')
-    async def ais(self, *arg):
+    async def ais(self, *arg,):
         "Skontroluje či si z STU."
         if len(arg) == 0:
             await self.send(text_constants.ERROR_ARGS.format("!ais"))
             return
         data = ' '.join(arg[0:])
         if data:
-            if webController.isStubaPerson(arg):
+            isSTUBA, faculty, aisId = webController.isStubaPerson(arg)
+            if isSTUBA:
                 sender = author.createAuthorFromMessage(self.author)
                 user = bot.get_user(sender.id)
                 await setRole(role='STU', ctx=self)
                 await self.send(text_constants.AIS_CONFIRMED)
                 await user.send(fileController.loadGamesMsg())
+
+                logMsg = f" SUCCESS - {aisId}, {faculty} - {self.message.author}"
+                await writeToLogsChannel("ais",logMsg)
             else:
                 await self.send(text_constants.AIS_DENIED.format(data))
+                logMsg = f" REJECT - {aisId}, {faculty} - {self.message.author}"
+                await writeToLogsChannel("ais",logMsg)
         else:
+            logMsg = f" REJECT - {data}, Bad command - {self.message.author}"
+            await writeToLogsChannel("ais",logMsg)
             return
 
     # @bot.command()

@@ -53,7 +53,9 @@ def isStubaPerson(input):
     listOfPermutations = []
     for x in list(itertools.permutations(listInput, len(listInput))):
         listOfPermutations.append(unidecode.unidecode(" ".join(x).lower()))
+    
     for person in response.json()['data']:
+        print(person)
         newPerson = person[0].replace(".","")
         newPerson = newPerson.replace(",", "")
         newPerson = newPerson.replace("Bc", "")
@@ -63,6 +65,6 @@ def isStubaPerson(input):
         newPerson = newPerson.replace("PhD", "")
         unaccented_string = unidecode.unidecode(newPerson)
         if unaccented_string.strip().lower() in listOfPermutations:
-            return True
+            return True,person[3], person[1]
 
-    return False
+    return False, "NOT STU", "NO AIS ID"
