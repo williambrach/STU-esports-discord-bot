@@ -11,13 +11,13 @@ from WebScrapeController import lolApiController
 from WebScrapeController import webController
 from WebScrapeController.dotaWebController import getDotaRank
 from WebScrapeController.csgoWebController import getCsgoRank
-from discord_components import DiscordComponents, Button
+from discord_components import DiscordComponents, Button, ButtonStyle
 
 
 def createBot():
     intents = discord.Intents.default()
     intents.members = True
-    bot = commands.Bot(command_prefix='!',intents=intents)
+    bot = commands.Bot(command_prefix='!', intents=intents)
 
     def parseLolCommand(arg):
         server = "EUNE"
@@ -29,8 +29,7 @@ def createBot():
             name = ' '.join(arg)
         return name, server
 
-
-    async def writeToLogsChannel(command,msg):
+    async def writeToLogsChannel(command, msg):
         time = datetime.datetime.now()
         time = time.strftime("%b %d %Y %H:%M")
         channel = bot.get_channel(discordConstants.LOGS_CHANNEL_ID)
@@ -66,7 +65,7 @@ def createBot():
         else:
             return False
 
-    ########### EVENTS
+    # EVENTS
 
     @bot.event
     async def on_ready():
@@ -85,15 +84,14 @@ def createBot():
     #     interaction = await bot.wait_for("button_click", check = lambda i: i.component.label.startswith("WOW"))
     #     await interaction.respond(content = "Button clicked!")
 
+    # Toto sa spravi ked sa niekto pripoji na nas Discord.
 
-
-    # Toto sa spravi ked sa niekto pripoji na nas Discord. 
     @bot.event
     async def on_member_join(member):
         loginMsg = fileController.loadLoginMsg()
         await member.send(loginMsg)
-        
-    ########### COMMANDS 
+
+    # COMMANDS
 
     # !ais, prikaz ktory prejde ais a zisti ci je clovek na stu.
     @bot.command(encoding='utf-8', name='ais')
@@ -113,14 +111,14 @@ def createBot():
                 await user.send(fileController.loadGamesMsg())
 
                 logMsg = f" SUCCESS - {aisId}, {faculty} - {self.message.author}"
-                await writeToLogsChannel("ais",logMsg)
+                await writeToLogsChannel("ais", logMsg)
             else:
                 await self.send(text_constants.AIS_DENIED.format(data))
                 logMsg = f" REJECT - {aisId}, {faculty} - {self.message.author}"
-                await writeToLogsChannel("ais",logMsg)
+                await writeToLogsChannel("ais", logMsg)
         else:
             logMsg = f" REJECT - {data}, Bad command - {self.message.author}"
-            await writeToLogsChannel("ais",logMsg)
+            await writeToLogsChannel("ais", logMsg)
             return
 
     # @bot.command()
@@ -128,38 +126,49 @@ def createBot():
     #     if await checkRole(role='Discord Admin', ctx=self):
     #         sys.exit(0)
 
+    @bot.command()
+    async def test(self, *arg):
+        await self.send(content="Message Here", components=[Button(style=ButtonStyle.URL, label="Zobraz svoje AIS údaje", url="https://is.stuba.sk/auth/kontrola/?_m=22841;lang=sk"), Button(style=ButtonStyle.blue, label="Default Button", custom_id="button")])
+
+    @bot.event
+    async def on_button_click(interaction):
+        if interaction.component.label.startswith("Default Button"):
+            await interaction.respond(content='Button Clicked')
 
     # !facebook - posle sa link na nas facebook
+
     @bot.command(name='facebook')
     async def facebook(self, *arg,):
         "Pošle ti link na náš facebook."
         area = self.message.channel
-        await area.send(text_constants.FACEBOOK)
+        await area.send(content=text_constants.FACEBOOK,components=[Button(style=ButtonStyle.URL, label="Link na Facebook 👍", url="https://www.facebook.com/EsportSTUBA")])
+
 
     # !instagram - posle sa link na nas instagram
-    @bot.command( name="instagram")
+    @bot.command(name="instagram")
     async def instagram(self, *arg):
         "Pošle ti link na náš instagram."
         area = self.message.channel
-        await area.send(text_constants.INSTAGRAM)
-
+        await area.send(content=text_constants.INSTAGRAM,components=[Button(style=ButtonStyle.URL, label="Link na Instagram 📷", url="https://www.instagram.com/esport_stuba")])
 
     # !twitch - posle sa link na nas twitch
+
     @bot.command(name="twitch")
     async def twitch(self, *arg):
         "Pošle ti link na náš Twitch."
-        area = self.message.channel        
-        await area.send(text_constants.TWITCH)
+        area = self.message.channel
+        await area.send(content=text_constants.TWITCH,components=[Button(style=ButtonStyle.URL, label="Link na Twitch 🙏", url="https://www.twitch.tv/estuba")])
+
 
     # !logo - posle sa link na google drive v ktorom mame vsetky loga
     @bot.command(name="logo")
     async def logo(self, *arg):
         "Pošle ti naše logo."
         area = self.message.channel
-        await area.send(text_constants.LOGO)
-
+        await area.send(content=text_constants.LOGO,components=[Button(style=ButtonStyle.URL, label="Link na všetky naše logá 🙏", url="https://drive.google.com/drive/folders/1GHsmQxYO7rdllcBWyQQkuHryYirYvome?usp=sharing")])
 
     # !login - sprava ktora pride pouzivatelovi ked sa pripoji na server
+
     @bot.command(name="login")
     async def login(self, *arg):
         "Uvítacia správa."
@@ -168,17 +177,16 @@ def createBot():
         user = bot.get_user(sender.id)
         await user.send(loginMsg)
 
-
     # !pog - posle sa do chatu obrazok pogchamp, ktory sa po 30 sec zmaze. Taktiez sa zmaze command !pog
-    @bot.command( name="pog")
+    @bot.command(name="pog")
     async def pog(self, *arg):
         "Pog!!"
         area = self.message.channel
         await self.message.delete()
-        await area.send('https://i0.wp.com/nerdschalk.com/wp-content/uploads/2020/08/pogger.png?resize=311%2C307&ssl=1',delete_after=30)
+        await area.send('https://i0.wp.com/nerdschalk.com/wp-content/uploads/2020/08/pogger.png?resize=311%2C307&ssl=1', delete_after=30)
 
-    
-    # !lol, priradi pouzivatelovi rolu lol 
+    # !lol, priradi pouzivatelovi rolu lol
+
     @bot.command(encoding='utf-8', name="lol")
     async def lol(self, *arg):
         "Prida ti League of Legends rolu + tvoj rank."
@@ -274,7 +282,7 @@ def createBot():
             gameName = userInput[0]
             tagline = userInput[1]
 
-            ## TODO WHEN VALO API
+            # TODO WHEN VALO API
             #rank = lolApiController.getValoRank(gameName, tagline)
             rank = text_constants.NOT_FOUND
             if rank == text_constants.NOT_FOUND:
@@ -294,7 +302,7 @@ def createBot():
         bot_commands = fileController.loadCommands()
         user = bot.get_user(sender.id)
         await user.send(bot_commands)
-        #await user.send("TODO, treba to fixnut...")
+        # await user.send("TODO, treba to fixnut...")
 
     # !botinfo
     @bot.command()
@@ -311,12 +319,12 @@ def createBot():
         "Pridá ti rolu notstu."
         if await checkRole(role='STU', ctx=self):
             await self.send("Už máš rolu STU... Nemôžeš mať aj rolu NOT-STU.")
-            return 
+            return
         else:
             await setRole(role="NOT-STU", ctx=self)
             await self.send("Bola ti pridelená rola - NOT-STU.")
-        
-    # !csgo        
+
+    # !csgo
     @bot.command(name="csgo")
     async def csgo(self, *arg):
         "Prida ti rolu CSGO + tvoj faceit rank."
