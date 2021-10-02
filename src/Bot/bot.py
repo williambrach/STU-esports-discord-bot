@@ -1,6 +1,7 @@
 import sys
 import datetime
 import discord
+from discord import message
 from discord.ext import commands
 from discord.utils import get
 from Constants import discordConstants
@@ -93,6 +94,32 @@ def createBot():
 
     # COMMANDS
 
+    @bot.command(encoding='utf-8', name='startinhouse')
+    async def startinhouse(self, *arg,):
+        area = self.message.channel
+
+
+        embedVar = discord.Embed(title="INHOUSE INITIATING", description="Účastníci prosím reagujte na túto správu svojou main rolou.", color=0x00ff00)
+        embedVar.set_author(name="Evil Inhouse Master", url="https://twitter.com/williambrach", icon_url="https://media.discordapp.net/attachments/812018358219178025/890554511859519488/evil_bb.png")
+        embedVar.add_field(name="QUEUE INICIATED", value="Čaká sa na všetkých hráčov...", inline=False)
+        embedVar.set_thumbnail(url="https://media.discordapp.net/attachments/812018358219178025/890554511859519488/evil_bb.png")
+        emojis = [':top1:893457583304745001',':jungle:893457583099236353',':mid:893457583380250625',':bot:893457583325732894',':support:893457583355088907']
+        message = await area.send(embed=embedVar)
+        for emoji in emojis:
+            await message.add_reaction(emoji)
+        discordConstants.INHOUSE_START_MSG_ID = message
+
+    @bot.command(encoding='utf-8', name='draftinhouse')
+    async def drafttinhouse(self, *arg,):
+        area = self.message.channel
+        message = discordConstants.INHOUSE_START_MSG_ID
+        cache_msg = discord.utils.get(bot.cached_messages, id=message.id)
+        users = set()
+        for reaction in cache_msg.reactions:
+            async for user in reaction.users():
+                print(user)
+                users.add(user)
+        await area.send(f"users: {', '.join(user.name for user in users)}")
     # !ais, prikaz ktory prejde ais a zisti ci je clovek na stu.
     @bot.command(encoding='utf-8', name='ais')
     async def ais(self, *arg,):
