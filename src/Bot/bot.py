@@ -13,7 +13,7 @@ from WebScrapeController import webController
 from WebScrapeController.dotaWebController import getDotaRank
 from WebScrapeController.csgoWebController import getCsgoRank
 from discord_components import DiscordComponents, Button, ButtonStyle
-
+import LOL.inhouse as INHOUSES
 
 def createBot():
     intents = discord.Intents.default()
@@ -73,17 +73,33 @@ def createBot():
         DiscordComponents(bot)
         print('Im alive.')
 
-    # @bot.command()
-    # async def button(ctx):
-    #     await ctx.send(
-    #         "Hello, World!",
-    #         components = [
-    #             Button(label = "WOW button!")
-    #         ]
-    #     )
 
-    #     interaction = await bot.wait_for("button_click", check = lambda i: i.component.label.startswith("WOW"))
-    #     await interaction.respond(content = "Button clicked!")
+    @bot.event
+    async def on_reaction_add(reaction, user):
+        if bot.user.name in user.name:
+            return 
+        message = discordConstants.INHOUSE_START_MSG_PRIMARY
+        if reaction.message.id == message.id:
+            cache_msg = discord.utils.get(bot.cached_messages, id=message.id)
+            for x in cache_msg.reactions:
+                async for y in x.users():
+                    if y.name == user.name:
+                        if reaction.emoji == x.emoji:
+                            continue 
+                        else:
+                            await message.remove_reaction(x.emoji, user)
+        message = discordConstants.INHOUSE_START_MSG_SECOND
+        if reaction.message.id == message.id:
+            cache_msg = discord.utils.get(bot.cached_messages, id=message.id)
+            for x in cache_msg.reactions:
+                async for y in x.users():
+                    if y.name == user.name:
+                        if reaction.emoji == x.emoji:
+                            continue 
+                        else:
+                            await message.remove_reaction(x.emoji, user)
+
+
 
     # Toto sa spravi ked sa niekto pripoji na nas Discord.
 
@@ -96,30 +112,76 @@ def createBot():
 
     @bot.command(encoding='utf-8', name='startinhouse')
     async def startinhouse(self, *arg,):
-        area = self.message.channel
+        if await checkRole(role='Moderátor League of Legends', ctx=self):
+            area = self.message.channel
+            await self.message.delete()
+            embedVar = discord.Embed(title="INHOUSE INITIATING 1/2", description="Účastníci prosím reagujte na túto správu svojou main rolou.", color=0x00ff00)
+            embedVar.set_author(name="Evil Inhouse Master", url="https://twitter.com/williambrach", icon_url="https://media.discordapp.net/attachments/812018358219178025/890554511859519488/evil_bb.png")
+            embedVar.add_field(name="PRIMARY QUEUE", value="Čaká sa na všetkých hráčov...", inline=False)
+            embedVar.set_thumbnail(url="https://media.discordapp.net/attachments/812018358219178025/890554511859519488/evil_bb.png")
+            message = await area.send(embed=embedVar)
+            for emoji in discordConstants.emojis:
+                await message.add_reaction(emoji)
+            discordConstants.INHOUSE_START_MSG_PRIMARY = message
 
+            embedVar = discord.Embed(title="INHOUSE INITIATING 2/2", description="Účastníci prosím reagujte na túto správu svojou secondary rolou.", color=0x00ff00)
+            embedVar.add_field(name="SECONDARY QUEUE", value="Čaká sa na všetkých hráčov...", inline=False)
+            embedVar.set_thumbnail(url="https://media.discordapp.net/attachments/812018358219178025/890554511859519488/evil_bb.png")
+            message = await area.send(embed=embedVar)
+            for emoji in discordConstants.emojis:
+                await message.add_reaction(emoji)
+            discordConstants.INHOUSE_START_MSG_SECOND = message
 
-        embedVar = discord.Embed(title="INHOUSE INITIATING", description="Účastníci prosím reagujte na túto správu svojou main rolou.", color=0x00ff00)
-        embedVar.set_author(name="Evil Inhouse Master", url="https://twitter.com/williambrach", icon_url="https://media.discordapp.net/attachments/812018358219178025/890554511859519488/evil_bb.png")
-        embedVar.add_field(name="QUEUE INICIATED", value="Čaká sa na všetkých hráčov...", inline=False)
-        embedVar.set_thumbnail(url="https://media.discordapp.net/attachments/812018358219178025/890554511859519488/evil_bb.png")
-        emojis = [':top1:893457583304745001',':jungle:893457583099236353',':mid:893457583380250625',':bot:893457583325732894',':support:893457583355088907']
-        message = await area.send(embed=embedVar)
-        for emoji in emojis:
-            await message.add_reaction(emoji)
-        discordConstants.INHOUSE_START_MSG_ID = message
 
     @bot.command(encoding='utf-8', name='draftinhouse')
     async def drafttinhouse(self, *arg,):
-        area = self.message.channel
-        message = discordConstants.INHOUSE_START_MSG_ID
-        cache_msg = discord.utils.get(bot.cached_messages, id=message.id)
-        users = set()
-        for reaction in cache_msg.reactions:
-            async for user in reaction.users():
-                print(user)
-                users.add(user)
-        await area.send(f"users: {', '.join(user.name for user in users)}")
+        if await checkRole(role='Moderátor League of Legends', ctx=self):
+            area = self.message.channel
+            await self.message.delete()
+            message = discordConstants.INHOUSE_START_MSG_PRIMARY
+            cache_msg = discord.utils.get(bot.cached_messages, id=message.id)
+            users = dict()
+            for reaction in cache_msg.reactions:
+                async for user in reaction.users():
+                    if bot.user.name in user.name:
+                        continue 
+                    else:
+                        users[user.name] = (reaction.emoji.name, "fill")
+
+            message = discordConstants.INHOUSE_START_MSG_SECOND
+            cache_msg = discord.utils.get(bot.cached_messages, id=message.id)
+            for reaction in cache_msg.reactions:
+                async for user in reaction.users():
+                    if bot.user.name in user.name:
+                        continue 
+                    else:
+                        if user.name in users:
+                            users[user.name]= (users[user.name][0], reaction.emoji.name)
+                        else:
+                            users[user.name] = ("fill", "fill")
+            
+            # users = {
+            # "erik" : ("top", "mid"),
+            # "eod" : ("jungle", "mid"),
+            # "willko" : ("mid", "mid"),
+            # "XD" : ("adc", "mid"),
+            # "propher mopher" : ("support", "mid"),
+            # "dssadsad" : ("top", "mid"),
+            # "12312513" : ("jungle", "mid"),
+            # "asdsa" : ("mid", "mid"),
+            # "ALI" : ("adc", "mid"),
+            # "dasdsa" : ("support", "mid"),
+            # }
+
+            playersShuffled, numberofteams = INHOUSES.shufflePlayers(users)
+            returnTableMsg = INHOUSES.generateReport(playersShuffled,numberofteams)
+            print(playersShuffled)
+            # Joining all lines togethor! 
+            embed = discord.Embed(title = 'Draft Draw Results', description = returnTableMsg)
+            embed.set_author(name="Evil Inhouse Master", url="https://twitter.com/williambrach", icon_url="https://media.discordapp.net/attachments/812018358219178025/890554511859519488/evil_bb.png")
+            await area.send(embed = embed)
+            await discordConstants.INHOUSE_START_MSG_PRIMARY.delete()
+            await discordConstants.INHOUSE_START_MSG_SECOND.delete()
     # !ais, prikaz ktory prejde ais a zisti ci je clovek na stu.
     @bot.command(encoding='utf-8', name='ais')
     async def ais(self, *arg,):
