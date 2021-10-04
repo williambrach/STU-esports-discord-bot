@@ -160,18 +160,27 @@ def createBot():
                         else:
                             users[user.name] = ("fill", "fill")
             
-            # users = {
-            # "erik" : ("top", "mid"),
-            # "eod" : ("jungle", "mid"),
-            # "willko" : ("mid", "mid"),
-            # "XD" : ("adc", "mid"),
-            # "propher mopher" : ("support", "mid"),
-            # "dssadsad" : ("top", "mid"),
-            # "12312513" : ("jungle", "mid"),
-            # "asdsa" : ("mid", "mid"),
-            # "ALI" : ("adc", "mid"),
-            # "dasdsa" : ("support", "mid"),
-            # }
+            users = {
+            "edo" : ("top", "mid"),
+            "anonym" : ("mid", "top"),
+            "willko" : ("adc", "jungle"),
+            "hlag" : ("top", "mid"),
+            "diss" : ("top", "fill"),
+            "pedro" : ("jungle", "top"),
+            "eldrimir" : ("jungle", "fill"),
+            "dzejno" : ("fill", "fill"),
+            "david" : ("mid", "mid"),
+            "little" : ("mid", "mid"),
+            "psycho" : ("mid", "top"),
+            "golar" : ("adc", "mid"),
+            "krivko" : ("adc", "top"),
+            "archy" : ("adc", "adc"),
+            "mech" : ("adc", "adc"),
+            "blyxo" : ("support", "fill"),
+            "goldiak" : ("support", "support"),
+            "sedrik" : ("support", "fill"),
+            "nezmay" : ("support", "support"),
+            }
 
             playersShuffled, numberofteams = INHOUSES.shufflePlayers(users)
             returnTableMsg = INHOUSES.generateReport(playersShuffled,numberofteams)
