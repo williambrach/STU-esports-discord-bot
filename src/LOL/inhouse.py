@@ -24,42 +24,36 @@ def shufflePlayers(players):
 
     for player_key in players:
         player = players[player_key]
-        if player[0].upper() == "TOP":
-            sortPlayers['TOP'].append(player_key)
-        elif player[0].upper() == "JUNGLE":
-            sortPlayers['JUNGLE'].append(player_key)
-        elif player[0].upper() == "MID":
-            sortPlayers['MID'].append(player_key)
-        elif player[0].upper() == "ADC":
-            sortPlayers['ADC'].append(player_key)
-        elif player[0].upper() == "SUPPORT":
-            sortPlayers['SUPPORT'].append(player_key)
-        elif player[0].upper() == "FILL":
-            sortPlayers['FILL'].append(player_key)
+        sortPlayers[player[0].upper()].append(player_key)
 
-    playersPerRole = round(len(players)/5)
+
+    playersPerRole = math.floor(len(players)/5)
+    print(playersPerRole)
 
     positions = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT", "FILL"]
     for position in positions:
-        print(position)
         if position.upper() == "FILL":
             continue
-        if len(sortPlayers[position]) <=  playersPerRole:
-            draftedPlayers[position].extend(sortPlayers[position][:len(sortPlayers[position])])
-            for player in draftedPlayers[position]:
-                popPlayer(player,playersQueue)
-            if len(sortPlayers[position]) <  playersPerRole:
-                if len(playersQueue) != 0:
-                    draftedPlayers[position].append(getBestPlayer(playersQueue,position))                
-                    pass
-        else:
-            random.shuffle(sortPlayers[position])
-            draftedPlayers[position].extend(sortPlayers[position][:playersPerRole])
-            for player in draftedPlayers[position]:
-                popPlayer(player,playersQueue)
-    return draftedPlayers, playersPerRole
+        len_sort = len(sortPlayers[position])
 
-def generateReport(players,numberofteams):
+        if len_sort <=  playersPerRole:
+            draftedPlayers[position].extend(sortPlayers[position][:len_sort])
+            for player in draftedPlayers[position]:
+                popPlayer(player,playersQueue)
+                popPlayerDic(player,sortPlayers)
+                
+        len_draft = len(draftedPlayers[position])
+        for i in range(playersPerRole-len_draft):
+            if len(playersQueue) != 0:
+                player_to_add = getBestPlayer(playersQueue,position)
+                popPlayerDic(player_to_add,sortPlayers)
+                draftedPlayers[position].append(player_to_add)
+
+    for key in draftedPlayers.keys():
+        random.shuffle(draftedPlayers[key])
+    return draftedPlayers, playersPerRole, playersQueue
+
+def generateReport(players,numberofteams,queue):
 
     msg = ""
     
@@ -91,11 +85,23 @@ def generateReport(players,numberofteams):
 
     teams = list(range(1,numberofteams+1))
     random.shuffle(teams)
-    for x in range(1,numberofteams+1, 2):
-        if x+1 <= numberofteams:
-            msg += f"Team {x} vs Team {x+1}\n"
+
+    for x in range(0,numberofteams, 2):
+        if x+1 < numberofteams:
+            msg += f"Team {teams[x]} vs Team {teams[x+1]}\n\n"
         else:
-            msg += f'**Team {x} no opponent.**'
+            msg += f'**Team {teams[x]} no opponent.**\n\n'
+    
+
+    msg += "**UNLUCKY PLAYERS**"
+    msg += "```"
+    if len(queue) != 0:
+        for player in queue:
+            msg += f'{player[0]}\t'
+    else:
+        msg += f'None :)'
+    msg += "\n```"
+    
     return msg
 
 
@@ -109,12 +115,21 @@ def getBestPlayer(queue,pos):
             maxPlayer = player
 
     popPlayer(maxPlayer[0],queue)
+
     return maxPlayer[0]
 
-def popPlayer(name, queue):
+def popPlayer(name, queue):    
     for index,player in enumerate(queue):
         if player[0] == name:
             del queue[index]
+            return
+
+def popPlayerDic(name,players):
+    for lane in players.keys():
+        for index,player in enumerate(players[lane]):
+            if player == name:
+                del players[lane][index]
+
 
 def getScore(player,pos):
     main = player[1][0].upper()

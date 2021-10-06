@@ -14,6 +14,9 @@ from WebScrapeController.dotaWebController import getDotaRank
 from WebScrapeController.csgoWebController import getCsgoRank
 from discord_components import DiscordComponents, Button, ButtonStyle
 import LOL.inhouse as INHOUSES
+import random
+from datetime import datetime
+
 
 def createBot():
     intents = discord.Intents.default()
@@ -78,26 +81,40 @@ def createBot():
     async def on_reaction_add(reaction, user):
         if bot.user.name in user.name:
             return 
-        message = discordConstants.INHOUSE_START_MSG_PRIMARY
-        if reaction.message.id == message.id:
-            cache_msg = discord.utils.get(bot.cached_messages, id=message.id)
-            for x in cache_msg.reactions:
-                async for y in x.users():
-                    if y.name == user.name:
-                        if reaction.emoji == x.emoji:
-                            continue 
-                        else:
-                            await message.remove_reaction(x.emoji, user)
-        message = discordConstants.INHOUSE_START_MSG_SECOND
-        if reaction.message.id == message.id:
-            cache_msg = discord.utils.get(bot.cached_messages, id=message.id)
-            for x in cache_msg.reactions:
-                async for y in x.users():
-                    if y.name == user.name:
-                        if reaction.emoji == x.emoji:
-                            continue 
-                        else:
-                            await message.remove_reaction(x.emoji, user)
+
+        try:
+            message = discordConstants.INHOUSE_START_MSG_PRIMARY
+            if reaction.message.id == message.id:
+                # if reaction.emoji.id not in discordConstants.emojis:
+                #     await message.remove_reaction( reaction.emoji, user)
+                #     return
+
+                cache_msg = discord.utils.get(bot.cached_messages, id=message.id)
+                for x in cache_msg.reactions:
+                    async for y in x.users():
+                        if y.name == user.name:
+                            if reaction.emoji == x.emoji:
+                                continue 
+                            else:
+                                await message.remove_reaction(x.emoji, user)
+
+            message = discordConstants.INHOUSE_START_MSG_SECOND
+            if reaction.message.id == message.id:
+
+                # if reaction.emoji.id not in discordConstants.emojis:
+                #     await message.remove_reaction( reaction.emoji, user)
+                #     return
+
+                cache_msg = discord.utils.get(bot.cached_messages, id=message.id)
+                for x in cache_msg.reactions:
+                    async for y in x.users():
+                        if y.name == user.name:
+                            if reaction.emoji == x.emoji:
+                                continue 
+                            else:
+                                await message.remove_reaction(x.emoji, user)
+        except:
+            pass
 
 
 
@@ -138,59 +155,54 @@ def createBot():
         if await checkRole(role='Moderátor League of Legends', ctx=self):
             area = self.message.channel
             await self.message.delete()
-            message = discordConstants.INHOUSE_START_MSG_PRIMARY
-            cache_msg = discord.utils.get(bot.cached_messages, id=message.id)
-            users = dict()
-            for reaction in cache_msg.reactions:
-                async for user in reaction.users():
-                    if bot.user.name in user.name:
-                        continue 
-                    else:
-                        users[user.name] = (reaction.emoji.name, "fill")
-
-            message = discordConstants.INHOUSE_START_MSG_SECOND
-            cache_msg = discord.utils.get(bot.cached_messages, id=message.id)
-            for reaction in cache_msg.reactions:
-                async for user in reaction.users():
-                    if bot.user.name in user.name:
-                        continue 
-                    else:
-                        if user.name in users:
-                            users[user.name]= (users[user.name][0], reaction.emoji.name)
-                        else:
-                            users[user.name] = ("fill", "fill")
+            if discordConstants.INHOUSE_START_MSG_PRIMARY !=  0 or discordConstants.INHOUSE_START_MSG_PRIMARY is not None:
+                message = discordConstants.INHOUSE_START_MSG_PRIMARY
+                cache_msg = discord.utils.get(bot.cached_messages, id=message.id)
+                users = dict()
+                for reaction in cache_msg.reactions:
+                    if reaction.emoji.name in ["top", "mid", "jungle", "adc", "support", "fill"]: 
+                        async for user in reaction.users():
+                            if bot.user.name in user.name:
+                                continue 
+                            else:
+                                users[user.name] = (reaction.emoji.name, "fill")
+            if discordConstants.INHOUSE_START_MSG_SECOND !=  0 or discordConstants.INHOUSE_START_MSG_SECOND is not None:
+                message = discordConstants.INHOUSE_START_MSG_SECOND
+                cache_msg = discord.utils.get(bot.cached_messages, id=message.id)
+                for reaction in cache_msg.reactions:
+                    if reaction.emoji.name in ["top", "mid", "jungle", "adc", "support", "fill"]: 
+                        async for user in reaction.users():
+                            if bot.user.name in user.name:
+                                continue 
+                            else:
+                                if user.name in users:
+                                    users[user.name]= (users[user.name][0], reaction.emoji.name)
+                                else:
+                                    users[user.name] = ("fill", reaction.emoji.name)
             
-            users = {
-            "edo" : ("top", "mid"),
-            "anonym" : ("mid", "top"),
-            "willko" : ("adc", "jungle"),
-            "hlag" : ("top", "mid"),
-            "diss" : ("top", "fill"),
-            "pedro" : ("jungle", "top"),
-            "eldrimir" : ("jungle", "fill"),
-            "dzejno" : ("fill", "fill"),
-            "david" : ("mid", "mid"),
-            "little" : ("mid", "mid"),
-            "psycho" : ("mid", "top"),
-            "golar" : ("adc", "mid"),
-            "krivko" : ("adc", "top"),
-            "archy" : ("adc", "adc"),
-            "mech" : ("adc", "adc"),
-            "blyxo" : ("support", "fill"),
-            "goldiak" : ("support", "support"),
-            "sedrik" : ("support", "fill"),
-            "nezmay" : ("support", "support"),
-            }
 
-            playersShuffled, numberofteams = INHOUSES.shufflePlayers(users)
-            returnTableMsg = INHOUSES.generateReport(playersShuffled,numberofteams)
+            # roles = ["top", "mid", "jungle", "adc", "support", "fill"]
+            # number = 28
+            # users = dict()
+            # for i in range(1,number+1):
+            #     main = [random.randint(0, 5) for _ in range(1)][0]
+            #     fill = [random.randint(0, 5) for _ in range(1)][0]
+            #     users[i] = (roles[main], roles[fill])
+            # print(users)
+            playersShuffled, numberofteams,queue = INHOUSES.shufflePlayers(users)
+            returnTableMsg = INHOUSES.generateReport(playersShuffled,numberofteams,queue)
             print(playersShuffled)
             # Joining all lines togethor! 
-            embed = discord.Embed(title = 'Draft Draw Results', description = returnTableMsg)
+            now = datetime.now()
+
+            dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+            embed = discord.Embed(title = f'Draft Draw Results - {dt_string}', description = returnTableMsg)
             embed.set_author(name="Evil Inhouse Master", url="https://twitter.com/williambrach", icon_url="https://media.discordapp.net/attachments/812018358219178025/890554511859519488/evil_bb.png")
             await area.send(embed = embed)
             await discordConstants.INHOUSE_START_MSG_PRIMARY.delete()
+            discordConstants.INHOUSE_START_MSG_PRIMARY = 0
             await discordConstants.INHOUSE_START_MSG_SECOND.delete()
+            discordConstants.INHOUSE_START_MSG_SECOND = 0
     # !ais, prikaz ktory prejde ais a zisti ci je clovek na stu.
     @bot.command(encoding='utf-8', name='ais')
     async def ais(self, *arg,):
