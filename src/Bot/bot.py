@@ -34,7 +34,7 @@ def createBot():
         return name, server
 
     async def writeToLogsChannel(command, msg):
-        time = datetime.datetime.now()
+        time = datetime.now()
         time = time.strftime("%b %d %Y %H:%M")
         channel = bot.get_channel(discordConstants.LOGS_CHANNEL_ID)
         await channel.send(f"{time} - [{command.upper()}] - {msg}")
